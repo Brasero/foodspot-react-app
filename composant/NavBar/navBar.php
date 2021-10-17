@@ -1,10 +1,5 @@
 <?php
-
-    $categoriesArray = $bdd->getCategoriesName();
-/*
-    foreach($categoriesArray as $categorie) {
-        var_dump($categorie);
-    }*/
+$categoriesArray = $bdd->getCategoriesName();
 ?>
 
 <nav class="navbar navbar-expand-md navbar-light bg-white w-100 border-bottom sticky-top" style="position: sticky;">
@@ -63,18 +58,40 @@
         <br />
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="index.php" class="mr-1 mt-1 btn btn-outline-dark">
+                <a href="index.php" class="mr-1 mt-1 btn btn-outline-dark <?php if(!isset($_GET['cat'])){echo 'active';} ?>">
                     <span class="bi bi-house"></span>
                 </a>
             </li>
             <?php 
                 foreach($categoriesArray as $categorie){
-                    echo '
-                    <li class="nav-item">
-                        <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
-                            '.$categorie['nom_categories'].'
-                        </a>
-                    </li>';
+                    if(isset($_GET['cat'])){
+                        if($_GET['cat'] == $categorie['id_categories']){
+                            echo '
+                            <li class="nav-item">
+                                <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark active">
+                                    '.$categorie['nom_categories'].'
+                                </a>
+                            </li>'; 
+                        }
+                        else{
+                            echo '
+                            <li class="nav-item">
+                                <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
+                                    '.$categorie['nom_categories'].'
+                                </a>
+                            </li>';
+                        }
+                    }
+                    else{
+                        echo '
+                        <li class="nav-item">
+                            <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
+                                '.$categorie['nom_categories'].'
+                            </a>
+                        </li>';
+                    }
+                    
+                   
                 }
             ?>
         </ul>

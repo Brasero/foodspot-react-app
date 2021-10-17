@@ -31,7 +31,7 @@ if(isset($id)){
 
 ?>
 
-<div id="page" class="w-100 p-3 container">
+<div id="page" class="w-100 p-3">
 
     <?php
         if(isset($catInfo)){
@@ -41,7 +41,7 @@ if(isset($id)){
         }
     ?>
 
-    <div class="card-deck justify-content-center">
+    <div class="card-deck justify-content-center row">
         <?php
 
             if(isset($productInfoList)){
@@ -50,7 +50,7 @@ if(isset($id)){
                     $productKey = explode(';', $productInfo['id_ingredients']);
 
                     echo '
-                    <div class="card text-center" style="max-width: 311px;">
+                    <div class="card text-center col-md-4 mx-4 mx-md-2 mt-md-2" style="min-width: 311px; padding: 0;">
                         <img class="card-img-top" src="./assets/img/'.$productInfo['img_produits'].'" alt="Card image" />
                         <div class="card-body">
                             <h5 class="card-title text-left mb-4">
@@ -89,3 +89,4 @@ if(isset($id)){
     </div>
 
 </div>
+<!-- Here goes modal content for purchase product ! -->
