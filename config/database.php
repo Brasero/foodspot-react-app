@@ -23,6 +23,14 @@ class DataBase{
         }
     }
 
+    public function getCategoriesName() {
+
+        $queryStr = 'SELECT * FROM categories';
+        $query = $this->connexion->query($queryStr);
+        $respond = $query->fetchAll();
+        return $respond;
+    }
+
 }
 
 ?>

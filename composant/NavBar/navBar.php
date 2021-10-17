@@ -1,4 +1,13 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light w-100" style="position: sticky;">
+<?php
+
+    $categoriesArray = $bdd->getCategoriesName();
+/*
+    foreach($categoriesArray as $categorie) {
+        var_dump($categorie);
+    }*/
+?>
+
+<nav class="navbar navbar-expand-md navbar-light bg-white w-100 border-bottom sticky-top" style="position: sticky;">
 
     <!--TOOGLE MENU BUTTON -->
     <button class="navbar-toggler mr-3" data-toggle="collapse" data-target="#navbarMenu">
@@ -6,7 +15,10 @@
     </button>
 
     <!-- BRAND -->
-    <a href="index.php" class="navbar-brand mr-auto fs-1">FoodSpot</a>
+    <a href="index.php" class="navbar-brand mr-auto fs-1">
+        <img src='./assets/img/logo.png' height="60" class="d-inline-block align-center" alt="" />
+        FoodSpot
+    </a>
 
     <!-- EXPAND MENU UL -->
     <div class="collapse navbar-collapse" style="flex-direction: column;" id="navbarMenu">
@@ -21,13 +33,13 @@
                         <span class="bi bi-person"></span>
                         Mon compte
                     </a>
-                    <a href="#" class="dropdown-item">
+                    <a href="#" role="button" data-toggle="modal" data-target="#cartModal" class="dropdown-item">
                         <span class="bi bi-cart"></span>
                         Panier
                     </a>
                     <a href="#" class="dropdown-item" >
                         <?php 
-                            if(isset($_SESSION['user'])){
+                            if(isset($_SESSION['userName'])){
                                 echo '
                                 <span class="bi bi-box-arrow-out-right"></span>
                                 Déconnexion';
@@ -42,20 +54,29 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#" role="button" class="btn btn-md btn-outline-dark ml-2">
+                <button href="#" type="button" class="btn btn-md btn-outline-dark ml-2" data-toggle="modal" data-target="#cartModal">
                     <span class="bi bi-cart"></span>
                     Panier
-                </a>
-            </li>  
+                </button>
+            </li>
         </ul> 
         <br />
         <ul class="navbar-nav">
-            <li class="navbar-item p-2">
-                Produits
+            <li class="nav-item">
+                <a href="index.php" class="mr-1 mt-1 btn btn-outline-dark">
+                    <span class="bi bi-house"></span>
+                </a>
             </li>
-            <li class="navbar-item p-2">
-                Boissons
-            </li>
+            <?php 
+                foreach($categoriesArray as $categorie){
+                    echo '
+                    <li class="nav-item">
+                        <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
+                            '.$categorie['nom_categories'].'
+                        </a>
+                    </li>';
+                }
+            ?>
         </ul>
     </div>
 </nav>

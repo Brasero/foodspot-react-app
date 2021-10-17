@@ -2,7 +2,7 @@
 session_start();
 if(isset($_COOKIE['userName'])){
 
-    $userName = $_COOKIE['userName'];
+    $_SESSION['userName'] = $_COOKIE['userName'];
 }
 
 include_once('./config/database.php');
@@ -41,6 +41,14 @@ $bdd->getConnexion()
         <?php 
         include_once('./composant/NavBar/navBar.php'); 
         include_once('./composant/NavBar/cartModal.php');
+
+        //insertion de la page d'acceuil dans les else, page catégorie dans le if.
+        if(isset($_GET['cat'])){
+            include('./pages/productByCat.php');
+        }
+        else{
+            include('./pages/acceuil.php');
+        }
         ?>
         
 
