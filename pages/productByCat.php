@@ -47,8 +47,6 @@ if(isset($id)){
             if(isset($productInfoList)){
 
                 foreach($productInfoList as $productInfo){
-                    $productKey = explode(';', $productInfo['id_ingredients']);
-
                     echo '
                     <div class="card text-center col-md-4 mx-4 mx-md-2 mt-md-2" style="min-width: 311px; padding: 0;">
                         <img class="card-img-top" src="./assets/img/'.$productInfo['img_produits'].'" alt="Card image" />
@@ -62,10 +60,8 @@ if(isset($id)){
                             <p class="card-text">
                                 <ul class="list-group list-group-flush collapse text-left" id="collapseIngredient'.$productInfo['id_produits'].'">
                                     ';
-                                    foreach($productKey as $key){
-                                        $ingredientQuery = $bdd->connexion->query('SELECT * FROM ingredients WHERE id_ingredients = '.$key.'');
-                                        $ingredientDetail = $ingredientQuery->fetch();
-                                        
+                                    $ingredientDetailList = $bdd->getIngredientList($productInfo['id_ingredients']);
+                                    foreach($ingredientDetailList as $ingredientDetail){
                                         echo '
                                         <li class="list-group-item">
                                             '.$ingredientDetail['nom_ingredients'].'
@@ -77,9 +73,9 @@ if(isset($id)){
                             
                         </div>
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-primary mb-1 mr-1 ml-auto" href="#">
-                                Ajouter au panier
-                            </a>    
+                            <button type="button" class="btn btn-primary mb-1 mr-1 ml-auto" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['nom_produits'].'" data-ingredient="'.$productInfo['id_ingredients'].'" >
+                                Voir +
+                            </button>    
                         </div>
                     </div>';
                 }
@@ -89,4 +85,31 @@ if(isset($id)){
     </div>
 
 </div>
-<!-- Here goes modal content for purchase product ! -->
+
+<div class="modal fade" id="moreModal" tabindex="-1" role="dialog" aria-labelledby="moreModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="ingredient"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#moreModal').on('focus', function(event) {
+        var button = $(event.relatedTarget)
+        var product = button.data('produit')
+        var ingredientList = button.data('ingredient')
+        var modal = $(this)
+        modal.find('.modal-title').html(product)
+        modal.find('#ingredient').html(ingredientList)
+    })
+</script>

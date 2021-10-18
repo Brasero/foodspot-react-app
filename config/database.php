@@ -31,6 +31,20 @@ class DataBase{
         return $respond;
     }
 
+    public function getIngredientList($numList) {
+
+        $ingredientIdArray = explode(';', $numList);
+        $returnArray = [];
+
+        foreach($ingredientIdArray as $ingredientId){
+            $ingredientQuery = $this->connexion->query('SELECT * FROM ingredients WHERE id_ingredients = '.$ingredientId.'');
+            $ingredientDetail = $ingredientQuery->fetch();
+            array_push($returnArray, $ingredientDetail);
+        }
+
+        return $returnArray;
+    }
+
 }
 
 ?>
