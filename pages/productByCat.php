@@ -31,7 +31,7 @@ if(isset($id)){
 
 ?>
 
-<div id="page" class="w-100 p-3 container">
+<div id="page" class="w-100 p-3">
 
     <?php
         if(isset($catInfo)){
@@ -41,31 +41,32 @@ if(isset($id)){
         }
     ?>
 
-    <div class="card-deck justify-content-center">
+    <div class="card-deck justify-content-center p-2 p-md-none row">
         <?php
 
             if(isset($productInfoList)){
 
                 foreach($productInfoList as $productInfo){
-                    $productKey = explode(';', $productInfo['id_ingredients']);
-
                     echo '
-                    <div class="card text-center" style="max-width: 311px;">
+                    <div class="card text-center col-md-3 m-2 mx-md-2 mt-md-2" style="min-width: 311px; padding: 0;">
+                        <span class="position-absolute top-0 px-3 py-3 h1 badge w-25 rounded bg-secondary">
+                            '.number_format($productInfo['prix_produits'], 2, ',', '.').'€
+                        </span>
                         <img class="card-img-top" src="./assets/img/'.$productInfo['img_produits'].'" alt="Card image" />
-                        <div class="card-body">
-                            <h5 class="card-title text-left mb-4">
+                        <div class="card-body p-1">
+                            <h5 class="card-title text-left mb-4 mt-3">
                                 '.$productInfo['nom_produits'].'
                             </h5>
-                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseIngredient'.$productInfo['id_produits'].'">
-                                Ingrédients
-                            </button>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseIngredient'.$productInfo['id_produits'].'">
+                                    Ingrédients
+                                </button>
+                            </div>
                             <p class="card-text">
                                 <ul class="list-group list-group-flush collapse text-left" id="collapseIngredient'.$productInfo['id_produits'].'">
                                     ';
-                                    foreach($productKey as $key){
-                                        $ingredientQuery = $bdd->connexion->query('SELECT * FROM ingredients WHERE id_ingredients = '.$key.'');
-                                        $ingredientDetail = $ingredientQuery->fetch();
-                                        
+                                    $ingredientDetailList = $bdd->getIngredientList($productInfo['id_ingredients']);
+                                    foreach($ingredientDetailList as $ingredientDetail){
                                         echo '
                                         <li class="list-group-item">
                                             '.$ingredientDetail['nom_ingredients'].'
@@ -76,10 +77,10 @@ if(isset($id)){
                             </p>
                             
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <a class="btn btn-primary mb-1 mr-1 ml-auto" href="#">
-                                Ajouter au panier
-                            </a>    
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-secondary m-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-ingredient="'.$productInfo['id_ingredients'].'" >
+                                Voir +
+                            </button>    
                         </div>
                     </div>';
                 }
@@ -89,3 +90,59 @@ if(isset($id)){
     </div>
 
 </div>
+
+<div class="modal fade" id="moreModal" tabindex="-1" role="dialog" aria-labelledby="moreModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel"></h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 class="modal-subtitle text-center"></h6>
+                <div id="ingredient"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#moreModal').on('focus bs modal', function(event) {
+        var button = $(event.relatedTarget)
+        var product = button.data('produit')
+        var ingredientList = button.data('ingredient')
+        var modal = $(this)
+        modal.find('#ingredient').html('Chargement...')
+        modal.find('.modal-title').html('Chargement...')
+
+        var urlProduit = './config/getProductById.php?idProduit='+product
+        var urlIngredient = './config/getIngredientList.php?ingredientId='+ingredientList+'&idProduit='+product
+
+        var request = new XMLHttpRequest();
+
+        if(product != undefined){
+            request.open('GET', urlProduit)
+            request.send()
+
+            request.onload = function(){
+                modal.find('.modal-title').html(request.response)
+
+                request.open('GET', urlIngredient)
+                request.send()
+
+                request.onload = function(){
+                    modal.find('#ingredient').html(request.response)
+                    modal.find('.modal-subtitle').html('Personnaliser')
+                }
+            }
+        }
+        else{
+            modal.find('.modal-title').html('<span class="text-danger">Erreur</span>')
+            modal.find('#ingredient').html('<span class="text-danger">Il semble qu\'il y ai un soucis, veuillez vérifier votre connexion.</span>')
+            modal.find('.modal-subtitle').html('')
+        }
+        
+    })
+</script>
