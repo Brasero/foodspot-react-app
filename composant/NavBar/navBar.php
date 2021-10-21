@@ -5,7 +5,7 @@ $categoriesArray = $bdd->getCategoriesName();
 <nav class="navbar navbar-expand-md navbar-light bg-white w-100 border-bottom sticky-top" style="position: sticky;">
 
     <!--TOOGLE MENU BUTTON -->
-    <button class="navbar-toggler mr-3" data-toggle="collapse" data-target="#navbarMenu">
+    <button class="navbar-toggler ms-3" data-toggle="collapse" data-target="#navbarMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -16,12 +16,13 @@ $categoriesArray = $bdd->getCategoriesName();
     </a>
 
     <!-- EXPAND MENU UL -->
-    <div class="collapse navbar-collapse" style="flex-direction: column;" id="navbarMenu">
-        <ul class="navbar-nav mt-3 ml-auto" style='flex-direction: row;'>
+    <div class="collapse navbar-collapse ms-3" style="flex-direction: column;" id="navbarMenu">
+        <ul class="navbar-nav mt-3" style='flex-direction: row;'>
             <li class="nav-item dropdown">
-                <button class="nav-link dropdown-toggle btn btn-md btn-outline-light" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="nav-link dropdown-toggle btn btn-md btn-outline-light me-3" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="bi-solid bi-person"></span>
-                    Mon Compte
+                    <?php if(isset($_SESSION['user'])){echo '<div class="d-inline">'.$_SESSION['user']['nom_users'].' <span class="d-none d-sm-inline">'.$_SESSION['user']['prenom_users'].'</span></div>';}
+                                else{ echo 'Mon compte';} ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="accountDropdown">
                     <a href="#" class="dropdown-item">
@@ -34,15 +35,19 @@ $categoriesArray = $bdd->getCategoriesName();
                     </a>
                     <a href="#" class="dropdown-item" >
                         <?php 
-                            if(isset($_SESSION['userName'])){
+                            if(isset($_SESSION['user'])){
                                 echo '
-                                <span class="bi bi-box-arrow-out-right"></span>
-                                Déconnexion';
+                                <a href="logOut.php" class="dropdown-item" >
+                                    <span class="bi bi-box-arrow-left"></span>
+                                    Déconnexion
+                                </a>';
                             }
                             else{
                                 echo '
-                                <span class="bi bi-box-arrow-in-right"></span>
-                                Connexion';
+                                <a href="index.php?page=1" class="dropdown-item" >
+                                    <span class="bi bi-box-arrow-in-right"></span>
+                                    Connexion
+                                </a>';
                             }
                         ?>
                     </a>
@@ -58,7 +63,7 @@ $categoriesArray = $bdd->getCategoriesName();
         <br />
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="index.php" class="mr-1 mt-1 btn btn-outline-dark <?php if(!isset($_GET['cat'])){echo 'active';} ?>">
+                <a href="index.php" class="me-1 mt-1 btn btn-outline-dark <?php if(!isset($_GET['cat'])){echo 'active';} ?>">
                     <span class="bi bi-house"></span>
                 </a>
             </li>
@@ -68,7 +73,7 @@ $categoriesArray = $bdd->getCategoriesName();
                         if($_GET['cat'] == $categorie['id_categories']){
                             echo '
                             <li class="nav-item">
-                                <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark active">
+                                <a href="index.php?cat='.$categorie['id_categories'].'" class="me-1 mt-1 btn btn-outline-dark active">
                                     '.$categorie['nom_categories'].'
                                 </a>
                             </li>'; 
@@ -76,7 +81,7 @@ $categoriesArray = $bdd->getCategoriesName();
                         else{
                             echo '
                             <li class="nav-item">
-                                <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
+                                <a href="index.php?cat='.$categorie['id_categories'].'" class="me-1 mt-1 btn btn-outline-dark">
                                     '.$categorie['nom_categories'].'
                                 </a>
                             </li>';
@@ -85,7 +90,7 @@ $categoriesArray = $bdd->getCategoriesName();
                     else{
                         echo '
                         <li class="nav-item">
-                            <a href="index.php?cat='.$categorie['id_categories'].'" class="mr-1 mt-1 btn btn-outline-dark">
+                            <a href="index.php?cat='.$categorie['id_categories'].'" class="me-1 mt-1 btn btn-outline-dark">
                                 '.$categorie['nom_categories'].'
                             </a>
                         </li>';
