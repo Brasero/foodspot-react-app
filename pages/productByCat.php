@@ -17,7 +17,7 @@ if(isset($id)){
         print_r($catInfoQuery->errorInfo());
     }
 
-    $productInfoListQuery = $bdd->connexion->prepare('SELECT * FROM produits WHERE id_categorie = :id');
+    $productInfoListQuery = $bdd->connexion->prepare('SELECT * FROM produits WHERE id_categorie = :id AND dispo_produits = 1');
 
     $productInfoListQuery->bindParam(':id', $id, PDO::PARAM_INT);
 
@@ -67,10 +67,18 @@ if(isset($id)){
                                     ';
                                     $ingredientDetailList = $bdd->getIngredientList($productInfo['id_ingredients']);
                                     foreach($ingredientDetailList as $ingredientDetail){
+                                        if($ingredientDetail['dispo_ingredients']){
                                         echo '
                                         <li class="list-group-item">
                                             '.$ingredientDetail['nom_ingredients'].'
                                         </li>';
+                                        }
+                                        else{
+                                            echo '
+                                            <li class="list-group-item text-muted">
+                                                '.$ingredientDetail['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger d-none d-sm-inline ms-4">Rupture</span>
+                                            </li>';
+                                        }
                                     }
                     echo '
                                 </ul>
@@ -78,7 +86,7 @@ if(isset($id)){
                             
                         </div>
                         <div class="d-grid">
-                            <button type="button" class="btn btn-outline-secondary m-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-ingredient="'.$productInfo['id_ingredients'].'" >
+                            <button type="button" class="btn click btn-outline-secondary m-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
                                 Voir +
                             </button>    
                         </div>
@@ -109,16 +117,18 @@ if(isset($id)){
 
 <script>
 
-    $('#moreModal').on('focus bs modal', function(event) {
-        var button = $(event.relatedTarget)
+    $('.click').on('click', function(event) {
+        var button = $(event.target)
+        console.log(button)
         var product = button.data('produit')
         var ingredientList = button.data('ingredient')
-        var modal = $(this)
+        var categorie = button.data('categorie')
+        var modal = $('#moreModal')
         modal.find('#ingredient').html('Chargement...')
         modal.find('.modal-title').html('Chargement...')
 
         var urlProduit = './config/getProductById.php?idProduit='+product
-        var urlIngredient = './config/getIngredientList.php?ingredientId='+ingredientList+'&idProduit='+product
+        var urlIngredient = './config/getIngredientList.php?ingredientId='+ingredientList+'&idProduit='+product+'&categorie='+categorie
 
         var request = new XMLHttpRequest();
 

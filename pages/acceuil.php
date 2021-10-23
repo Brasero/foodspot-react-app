@@ -6,7 +6,7 @@ $carouselCount = 0;
 
 <div id="page" class="w-100 p-3">
 
-    <div class="w-100 slide carousel d-none d-md-block mt-3 mb-4" style="max-height: 300px;" data-ride="carousel" id="banniere">
+    <div class="w-100 slide carousel carousel-fade d-none d-md-block mt-3 mb-4" style="max-height: 300px;" data-ride="carousel" id="banniere">
         <div class="carousel-inner">
             <?php  
                 foreach($catInfo as $cat){

@@ -12,11 +12,25 @@ $bdd = new DataBase;
 
 $bdd->getConnexion();
 
-if(isset($_POST['email'], $_POST['password'])){
-    if(!empty($_POST['email']) AND !empty($_POST['password'])){
-        $message = $bdd->logIn($_POST['email'], $_POST['password']);
+if(isset($_POST['connect_email'], $_POST['connect_password'])){
+    if(!empty($_POST['connect_email']) AND !empty($_POST['connect_password'])){
+        $message = $bdd->logIn($_POST['connect_email'], $_POST['connect_password']);
     }
 }
+
+if(isset(
+    $_POST['signIn_nom'], 
+    $_POST['signIn_prenom'], 
+    $_POST['signIn_email'], 
+    $_POST['signIn_adresse'], 
+    $_POST['signIn_ville'], 
+    $_POST['signIn_password']
+    ) AND 
+    $_POST['signIn_password'] == $_POST['signIn_confirm_password']){
+        
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +67,10 @@ if(isset($_POST['email'], $_POST['password'])){
         }
         else if(isset($_GET['page']) AND $_GET['page'] == 1) {
             include('./pages/connect.php');
+            include('./pages/acceuil.php');
+        }
+        else if(isset($_GET['page']) AND $_GET['page'] == 2){
+            include('./pages/signIn.php');
             include('./pages/acceuil.php');
         }
         else{
