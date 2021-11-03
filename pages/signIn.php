@@ -85,8 +85,6 @@ else if(isset(
 
         if($_POST['signIn_password'] === $_POST['signIn_confirm_password']){
 
-            //Here goes the db insert after the mail verification.
-
             $dbUsersQuery = $bdd->connexion->query('SELECT * FROM users');
             $dbUsersArray = $dbUsersQuery->fetchAll();
             $emailExist = false;
