@@ -91,8 +91,6 @@ function createCartItem($idProduit, $ingredientString, $idUser, $price){
 
 $cartItem = createCartItem($data['idProduit'], $ingredientString, $data['idUser'], $commandePrice);
 
-var_dump($cartItem);
-
 if(isset(
     $cartItem['identifiant_panier'], 
     $cartItem['id_produits'], 

@@ -50,6 +50,7 @@ if(isset(
         <link rel="stylesheet" href="./css/navBar.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js' différé asynchrone></script>
         
     </head>
 
