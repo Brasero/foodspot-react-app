@@ -47,6 +47,10 @@ $categoriesArray = $bdd->getCategoriesName();
                                 <a href="index.php?page=1" class="dropdown-item" >
                                     <span class="bi bi-box-arrow-in-right"></span>
                                     Connexion
+                                </a>
+                                <a href="index.php?page=2" class="dropdown-item" >
+                                    <span class="bi bi-file-earmark-person"></span>
+                                    Inscription
                                 </a>';
                             }
                         ?>

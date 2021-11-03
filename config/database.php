@@ -58,6 +58,60 @@ class DataBase{
         }
     }
 
+    public function signIn($mail, $nom, $prenom, $adresse, $villeNom, $num, $mdp){
+        /*
+            identifiant_users
+            mail_users
+            nom_users
+            prenom_users
+            adresse_users
+            tel_users
+            mdp_users
+            isManager_users
+        */
+
+        if(isset($mail, $nom, $prenom, $adresse, $villeNom, $num, $mdp)){
+            $villeQueryStr = 'SELECT * FROM ville WHERE nom = :villeNom';
+            $villeQuery = $this->connexion->prepare($villeQueryStr);
+            $villeQuery->bindParam(':villeNom', $villeNom, PDO::PARAM_STR);
+            $villeQuery->execute();
+            $villeQuery->fetch();
+
+            $idVille = $villeQuery['ID'];
+
+            $adresse = htmlspecialchars($adresse);
+
+            $mdp = str_replace(' ', '', $mdp);
+
+            $mail = str_replace(' ', '', $mail);
+
+            $securedMdp = password_hash($mdp, PASSWORD_BCRYPT);
+
+            $identifiant = time();
+
+            $insertQueryStr = 'INSERT INTO users (identifiant_users, mail_users, nom_users, prenom_users, adresse_users, id_ville_users, tel_users, mdp_users, isManager_users) 
+                                VALUES (:identifiant, :mail, :nom, :prenom, :adresse, :idVille, :tel, :mdp, 0)';
+
+            $checkQuery = $this->connexion->query('SELECT * FROM users WHERE mail_users = '.$mail.'');
+            $checkQuery->fetch();
+
+            if(!$checkQuery){
+                $insertQuery = $this->connexion->prepare($insertQueryStr);
+                $insertQuery->bindParam(':identifiant', $identifiant, PDO::PARAM_INT);
+                $insertQuery->bindParam(':mail', $mail, PDO::PARAM_STR);
+                $insertQuery->bindParam(':nom', $nom, PDO::PARAM_STR);
+                $insertQuery->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+                $insertQuery->bindParam(':adresse', $adresse, PDO::PARAM_STR);
+                $insertQuery->bindParam(':idVille', $idVille, PDO::PARAM_INT);
+                $insertQuery->bindParam(':tel', $num, PDO::PARAM_INT);
+                $insertQuery->bindParam(':mdp', $securedMdp, PDO::PARAM_STR);
+
+                var_dump($insertQuery);
+            }
+            
+        }
+    }
+
     public function getCart($user){
         $queryStr = 'SELECT * FROM cart WHERE id_users = '.$user['id_users'];
         $query = $this->connexion->query($queryStr);
@@ -98,7 +152,6 @@ class DataBase{
 
         return $returnArray;
     }
-
 }
 
 ?>
