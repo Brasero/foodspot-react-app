@@ -90,7 +90,7 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                 <div class="d-inline me-auto color-secondary h3"><span class="text-muted h4">Total :</span> <?= $totalCart; ?>€</div>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
                 <?php  if($totalCart != 0.0){  ?>
-                <button type="button" class="btn btn-success">Commander</button>
+                <a type="button" href="composant/validateCart/validateCart.php" class="btn btn-success">Commander</a>
                 <?php } ?>
             </div>
         </div>

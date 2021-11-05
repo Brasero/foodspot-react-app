@@ -50,11 +50,31 @@ else{
         <?php 
 
         if(isset($_SESSION['authorized']) && $_SESSION['authorized'] === true){
-            include_once('./navBar/navBar.php');    
+
+            include_once('./navBar/navBar.php'); 
+
+            if(isset($_GET['page'])){
+                switch($_GET['page']){
+                    case 1 :
+                        include_once('');
+                        break;
+                    case 2 :
+                        include_once('');
+                        break;
+                    case 3 :
+                        include_once('');
+                        break;
+                }
+            }
+            else{
+                include_once('./acceuil/acceuil.php');
+            }   
+
         }
         else{
             include_once('./connexion/connexion.php');
         }
+
             
         ?>
         

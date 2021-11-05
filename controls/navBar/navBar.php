@@ -1,10 +1,9 @@
-<nav class="navbar navbar-light bg-light fixed-top border-bottom">
+<nav class="navbar navbar-light bg-transparent fixed-top mb-3">
   <div class="container-fluid">
     <a class="navbar-brand ms-1 d-flex" href="#"> 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
         </button>
-        <h2 class="d-inline ms-2">Menu</h2>
     </a>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
@@ -24,6 +23,9 @@
           </li>
           <li class="nav-item">
               <a class="nav-link" href='#'>Ingrédients</a>
+          </li>
+          <li class="nav-item">
+            <a class="text-danger nav-link" href="logOut.php">Déconnexion</a>
           </li>
         </ul>
       </div>
