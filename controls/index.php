@@ -1,22 +1,26 @@
 <?php
 session_start();
-if(isset($_COOKIE['userName'])){
-
-    $_SESSION['userName'] = $_COOKIE['userName'];
-}
-
 
 include_once('../config/database.php');
+
+$passAttempt = 'FoodSpotNancy';
 
 $bdd = new DataBase;
 
 $bdd->getConnexion();
 
-if(isset($_POST['connect_email'], $_POST['connect_password'])){
-    if(!empty($_POST['connect_email']) AND !empty($_POST['connect_password'])){
-        $message = $bdd->logIn($_POST['connect_email'], $_POST['connect_password']);
+if(isset($_POST['adminPass']) || isset($_SESSION['authorized'])){
+    if(isset($_POST['adminPass']) && $_POST['adminPass'] === $passAttempt || $_SESSION['authorized']){
+        $_SESSION['authorized'] = true;
+    }
+    else{
+        $_SESSION['authorized'] = false;
     }
 }
+else{
+    $_SESSION['authorized'] = false;   
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +48,14 @@ if(isset($_POST['connect_email'], $_POST['connect_password'])){
 
         </header>
         <?php 
-            include_once('./navBar/navBar.php');
+
+        if(isset($_SESSION['authorized']) && $_SESSION['authorized'] === true){
+            include_once('./navBar/navBar.php');    
+        }
+        else{
+            include_once('./connexion/connexion.php');
+        }
+            
         ?>
         
 
