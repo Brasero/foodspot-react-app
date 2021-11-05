@@ -1,6 +1,7 @@
 <?php
 $today = date("d.m.y");
 $totalOfDay = 0;
+$totalCommandeDay = 0;
 
 $commandeListQuery = $bdd->connexion->query('SELECT * FROM commande');
 
@@ -85,7 +86,7 @@ $panierMoyen = $panierMoyen / $nbPanier;
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div class="col">
-            <div class="card " style="height: 200px;">
+            <div class="card">
                 <div class="card-body">
                     <div class="card-title">
                         <h4 class="h4">
@@ -96,10 +97,21 @@ $panierMoyen = $panierMoyen / $nbPanier;
                         <?=number_format($totalOfDay, 2)?>€
                     </div>
                 </div>
+                <div class="card-footer">
+                    <?php
+                        foreach($totauxPanier as $time => $value){
+                            if(date('d.m.y', $time) === $today){
+                                $totalCommandeDay ++; 
+                            }
+                        }
+
+                        echo $totalCommandeDay.' commandes';
+                    ?>
+                </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="height: 200px;">
+            <div class="card">
                 <div class="card-body">
                     <div class="card-title">
                         <h4 class="h4">
@@ -110,11 +122,14 @@ $panierMoyen = $panierMoyen / $nbPanier;
                         <?=$starCat.' - '.$star?>
                     </div>
                 </div>
+                <div class="card-footer">
+                    Commandé <?=$maxCount?> fois
+                </div>
             </div>
         </div>
 
         <div class="col">
-            <div class="card" style="height: 200px;">
+            <div class="card">
                 <div class="card-body">
                     <div class="card-title">
                         <h4 class="h4">
@@ -129,7 +144,7 @@ $panierMoyen = $panierMoyen / $nbPanier;
         </div>
 
         <div class="col">
-            <div class="card" style="height: 200px;">
+            <div class="card">
                 <div class="card-body">
                     <div class="card-title">
                         <h4 class="h4">

@@ -13,16 +13,16 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-1">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">DashBoard</a>
+            <a class="nav-link active" aria-current="page" href="index.php">DashBoard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Catégories</a>
+            <a class="nav-link" href="index.php?page=1">Catégories</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Produits</a>
+              <a class="nav-link" href="index.php?page=2">Produits</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href='#'>Ingrédients</a>
+              <a class="nav-link" href='index.php?page=3'>Ingrédients</a>
           </li>
           <li class="nav-item">
             <a class="text-danger nav-link" href="logOut.php">Déconnexion</a>
