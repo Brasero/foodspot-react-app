@@ -30,6 +30,13 @@ class DataBase{
         return $respond;
     }
 
+    public function getProduits() {
+        $queryStr = 'SELECT * FROM produits';
+        $query = $this->connexion->query($queryStr);
+        $respond = $query->fetchAll();
+        return $respond;
+    }
+
     public function logIn($mail, $mdp){
         if(isset($mail, $mdp)){
             if(!empty($mail) AND !empty($mdp)){
@@ -97,6 +104,13 @@ class DataBase{
         }
 
         return $returnArray;
+    }
+
+    public function getIngredients(){
+        $queryStr = 'SELECT * FROM ingredients';
+        $query = $this->connexion->query($queryStr);
+        $respond = $query->fetchAll();
+        return $respond;
     }
 }
 

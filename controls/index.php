@@ -59,7 +59,7 @@ else{
                         include_once('./categorie/categorie.php');
                         break;
                     case 2 :
-                        include_once('');
+                        include_once('./produit/produit.php');
                         break;
                     case 3 :
                         include_once('');
