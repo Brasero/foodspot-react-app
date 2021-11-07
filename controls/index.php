@@ -56,7 +56,7 @@ else{
             if(isset($_GET['page'])){
                 switch($_GET['page']){
                     case 1 :
-                        include_once('');
+                        include_once('./categorie/categorie.php');
                         break;
                     case 2 :
                         include_once('');
