@@ -2,7 +2,12 @@
 
 $produitArray = $bdd->getProduits();
 $catArray = $bdd->getCategoriesName();
-$ingredientArray = $bdd->getIngredients()
+$ingredientArray = $bdd->getIngredients();
+
+if(isset($_POST['nom'], $_POST['prix'], $_POST['ingredient'], $_POST['cat'])){
+
+    $bdd->addProduct($_POST['nom'], $_POST['prix'], $_POST['ingredient'], $_POST['cat'], $_FILES);
+}
 
 ?>
 
@@ -41,7 +46,7 @@ $ingredientArray = $bdd->getIngredients()
                 <h3 class="card-title text-left">
                     Créer un nouveau produit
                 </h3>
-                <form class="needs-validation" action="index.php?page=1" method="post" enctype="multipart/form-data">
+                <form class="needs-validation" action="index.php?page=2" method="post" enctype="multipart/form-data">
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="prodName" placeholder="Nom" name="nom" required />
                         <label for="prodName">Nom</label>
@@ -49,7 +54,7 @@ $ingredientArray = $bdd->getIngredients()
                     <div class="form-floating input-group mb-2">
                         <input type="text" class="form-control" id="prodPrice" placeholder="prix" name="prix" required />
                         <label for="prodPrice">Prix</label>
-                        <span class="input-group-text">Format : 0,00</span>
+                        <span class="input-group-text">Format : 0.00</span>
                     </div>
                     <!-- Remplacer la list ul par un mulitselect  -->
                     <ul class="list-group">
@@ -58,7 +63,7 @@ $ingredientArray = $bdd->getIngredients()
                             foreach($ingredientArray as $ingredient){
                                 echo '
                                     <li class="list-group-item">
-                                        <input class="form-check-input me-2" type="checkbox" value="'.$ingredient['id_ingredients'].'" />
+                                        <input class="form-check-input me-2" type="checkbox" name="ingredient[]" value="'.$ingredient['id_ingredients'].'" />
                                         '.$ingredient['nom_ingredients'].'
                                     </li>
                                 ';
@@ -79,8 +84,8 @@ $ingredientArray = $bdd->getIngredients()
                         ?>
                     </select>
                     <div class="mb-2">
-                        <label for="catImg" class="form-label">Ajouter une image</label>
-                        <input id="catImg" name="img" class="form-control" type="file" accept="img/*" required /> 
+                        <label for="prodImg" class="form-label">Ajouter une image</label>
+                        <input id="prodImg" name="img" class="form-control" type="file" accept="img/*" required /> 
                     </div>
                     
                     <button class="btn btn-primary" type="submit">

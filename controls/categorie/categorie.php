@@ -5,7 +5,6 @@ $catArray = $bdd->getCategoriesName();
 if(isset($_POST['nom']) && !empty($_POST['nom'])){
 
     $imgPath = $_FILES['img']['name'];
-    echo $imgPath;
     $identifiant = time();
     $nom = $_POST['nom'];
 

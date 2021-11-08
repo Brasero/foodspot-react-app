@@ -112,6 +112,52 @@ class DataBase{
         $respond = $query->fetchAll();
         return $respond;
     }
+
+    public function addProduct($name, $price, $ingredient, $cat, $img){
+        $imgName = $img['img']['name'];
+        $imgObj = $img['img']['tmp_name'];
+        $identifiant = time();
+        $ingredientStr = '';
+        $price = str_replace(',', '.', $price);
+        $dispo = 1;
+        //Construction de la chaine de caractère d'ingredients
+
+        for($i = 0; $i < sizeof($ingredient); $i++){
+            if($i === sizeof($ingredient) - 1){
+                $ingredientStr = $ingredientStr.$ingredient[$i];
+            }
+            elseif($i === 0){
+                $ingredientStr = $ingredient[$i].';';
+            }
+            else{
+                $ingredientStr = $ingredientStr.$ingredient[$i].';';
+            }
+        }
+
+        //End
+
+        $insertQueryStr = 'INSERT INTO produits 
+                            (identifiant_produits, nom_produits, prix_produits, id_categorie, id_ingredients, dispo_produits, img_produits) 
+                            VALUES (:idProd, :nom, :prix, :cat, :ingredients, :dispo, :img)';
+
+        $insertQuery = $this->connexion->prepare($insertQueryStr);
+        $insertQuery->bindParam(':idProd', $identifiant, PDO::PARAM_INT);
+        $insertQuery->bindParam(':nom', $name, PDO::PARAM_STR);
+        $insertQuery->bindParam(':prix', $price, PDO::PARAM_STR);
+        $insertQuery->bindParam(':cat', $cat, PDO::PARAM_INT);
+        $insertQuery->bindParam(':ingredients', $ingredientStr, PDO::PARAM_STR);
+        $insertQuery->bindParam(':dispo', $dispo, PDO::PARAM_INT);
+        $insertQuery->bindParam(':img', $imgName, PDO::PARAM_STR);
+        
+        if($insertQuery->execute()){
+            move_uploaded_file($imgObj, '../assets/img/'.$imgName);
+            header('index.php?page=2');
+        }
+        else{
+            return $insertQuery->errorInfo();
+        }
+
+    }
 }
 
 ?>

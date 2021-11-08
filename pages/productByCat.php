@@ -54,7 +54,7 @@ if(isset($id)){
                         </span>
                         <img class="card-img-top" src="./assets/img/'.$productInfo['img_produits'].'" alt="Card image" />
                         <div class="card-body p-1">
-                            <h5 class="card-title text-left mb-4 mt-3">
+                            <h5 class="card-title text-left mb-2 mt-1">
                                 '.$productInfo['nom_produits'].'
                             </h5>
                             <div class="d-grid">
@@ -86,7 +86,7 @@ if(isset($id)){
                             
                         </div>
                         <div class="d-grid">
-                            <button type="button" class="btn click btn-outline-secondary m-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
+                            <button type="button" class="btn click btn-outline-secondary mx-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
                                 Voir +
                             </button>    
                         </div>
