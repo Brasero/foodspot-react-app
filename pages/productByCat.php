@@ -119,7 +119,6 @@ if(isset($id)){
 
     $('.click').on('click', function(event) {
         var button = $(event.target)
-        console.log(button)
         var product = button.data('produit')
         var ingredientList = button.data('ingredient')
         var categorie = button.data('categorie')
