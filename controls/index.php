@@ -62,7 +62,7 @@ else{
                         include_once('./produit/produit.php');
                         break;
                     case 3 :
-                        include_once('');
+                        include_once('./ingredient/ingredient.php');
                         break;
                 }
             }

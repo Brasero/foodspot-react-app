@@ -57,6 +57,7 @@ if(isset($id)){
                             <h5 class="card-title text-left mb-2 mt-1">
                                 '.$productInfo['nom_produits'].'
                             </h5>
+                            <div>
                             <div class="d-grid">
                                 <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseIngredient'.$productInfo['id_produits'].'">
                                     Ingrédients
@@ -84,11 +85,12 @@ if(isset($id)){
                                 </ul>
                             </p>
                             
-                        </div>
                         <div class="d-grid">
-                            <button type="button" class="btn click btn-outline-secondary mx-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
+                            <button type="button" class="btn click btn-outline-secondary" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
                                 Voir +
                             </button>    
+                        </div>
+                        </div>
                         </div>
                     </div>';
                 }

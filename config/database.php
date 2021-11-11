@@ -113,6 +113,36 @@ class DataBase{
         return $respond;
     }
 
+    public function updateAttrProduit($attrName, $attr, $id, $type){
+         if($type === 1){
+             $pdoParam = PDO::PARAM_INT;
+         }
+         else{
+             $pdoParam = PDO::PARAM_STR;
+         }
+
+        $updateQueryStr = 'UPDATE produits SET '.$attrName.'= :val WHERE id_produits = :id';
+        $updateQuery = $this->connexion->prepare($updateQueryStr);
+        $updateQuery->bindParam(':val', $attr, $pdoParam);
+        $updateQuery->bindParam(':id', $id, PDO::PARAM_INT);
+        $updateQuery->execute();
+    }
+
+    public function updateAttrCategorie($attrName, $attr, $id, $type){
+        if($type === 1){
+            $pdoParam = PDO::PARAM_INT;
+        }
+        else{
+            $pdoParam = PDO::PARAM_STR;
+        }
+
+       $updateQueryStr = 'UPDATE categories SET '.$attrName.'= :val WHERE id_categories = :id';
+       $updateQuery = $this->connexion->prepare($updateQueryStr);
+       $updateQuery->bindParam(':val', $attr, $pdoParam);
+       $updateQuery->bindParam(':id', $id, PDO::PARAM_INT);
+       $updateQuery->execute();
+    }
+
     public function addProduct($name, $price, $ingredient, $cat, $img){
         $imgName = $img['img']['name'];
         $imgObj = $img['img']['tmp_name'];
@@ -151,12 +181,26 @@ class DataBase{
         
         if($insertQuery->execute()){
             move_uploaded_file($imgObj, '../assets/img/'.$imgName);
-            header('index.php?page=2');
         }
         else{
             return $insertQuery->errorInfo();
         }
+        header('Location: index.php?page=2');
 
+    }
+
+    public function addIngredient($name, $price){
+        $identifiant = time();
+        $price = str_replace(',', '.', $price);
+
+        $insertStr = 'INSERT INTO ingredients (identifiant_ingredients, nom_ingredients, prix_ingredients, dispo_ingredients) 
+                        VALUES (:id, :nom, :prix, 1)';
+        $insertQuery = $this->connexion->prepare($insertStr);
+        $insertQuery->bindParam(':id', $identifiant, PDO::PARAM_INT);
+        $insertQuery->bindParam(':nom', $name, PDO::PARAM_STR);
+        $insertQuery->bindParam(':prix', $price, PDO::PARAM_STR);
+        $insertQuery->execute();
+        header('Location: index.php?page=3');
     }
 }
 

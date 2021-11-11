@@ -45,7 +45,7 @@ if(isset($_POST['nom']) && !empty($_POST['nom'])){
                                 <button class="btn btn-outline-danger me-2">
                                     <span class="bi bi-trash" onclick="deleteItem('.$cat['identifiant_categories'].')"></span>
                                 </button>
-                                <button class="btn btn-primary">
+                                <button class="btn click btn-primary" type="button" data-toggle="modal" data-target="#modifyModal" data-catid="'.$cat['id_categories'].'">
                                     <span class="bi bi-pencil"></span>
                                 </button>
                             </li>                            
@@ -81,6 +81,21 @@ if(isset($_POST['nom']) && !empty($_POST['nom'])){
     </div>
 </div>
 
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modification de catégorie</h5>
+                <button class="btn-close" typee="button" data-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="modal-subtitle text-center"></h6>
+                <div id="catDetail"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
 function deleteItem(item){
@@ -98,5 +113,24 @@ function deleteItem(item){
     }
 
 }
+
+$('.click').on('click', function(event) {
+    var button = $(event.currentTarget)
+    var catId = button.data('catid')
+    var modal = $('#modifyModal')
+    modal.find('#catDetail').html('Chargement...')
+
+    var urlCategorieToModify = '../config/getCategorieToModify.php?idCat='+catId
+    var request = new XMLHttpRequest();
+
+    if(catId != undefined){
+        request.open('GET', urlCategorieToModify)
+        request.send();
+
+        request.onload = function(){
+            modal.find("#catDetail").html(request.response)
+        }
+    }
+})
 
 </script>

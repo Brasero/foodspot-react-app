@@ -57,11 +57,11 @@ $date = strftime('Produit créé %A %d %b %Y à %H:%M', $productInfo['identifian
         ?>
     </div>
     <div class="input-group mb-1">
-        <label class="input-group-text" for="#NomProduit">Nom</label>
+        <label class="input-group-text" for="nomProduit">Nom</label>
         <input type="text" class="form-control" id="nomProduit" name="nomProduit" value="<?=$productInfo['nom_produits']?>" required />
     </div>
     <div class="input-group mb-3">
-        <label class="input-group-text" for="#prixProduit">Prix</label>
+        <label class="input-group-text" for="prixProduit">Prix</label>
         <input class="form-control" id="prixProduit" name="prixProduit" value="<?=number_format($productInfo['prix_produits'], 2, ',', '.')?>" required />
         <span class="input-group-text">Format : 0,00 €</span>
     </div>
