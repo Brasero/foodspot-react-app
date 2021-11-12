@@ -20,10 +20,15 @@ foreach($cart as $item){
 
     if($insertQuery->execute()){
         $deleteQuery = $bdd->connexion->query('DELETE FROM cart WHERE id_cart = '.$item['id_cart'].'');
+        $registerStatut = true;
     }
     else{
         var_dump($insertQuery->errorInfo());
+        $registerStatut = false;
     }
+}
+if($registerStatut){
+    $statutCommandeQuery = $bdd->connexion->query('INSERT INTO statut_commande (identifiant_commande, statut_commande_value) VALUES ('.$identifiantCommande.', 0)');
 }
 
 header('Location: ../../index.php');

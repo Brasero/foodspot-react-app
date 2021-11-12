@@ -92,6 +92,46 @@ class DataBase{
         return $respond;
     }
 
+    public function getCommande0() {
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+                                                FROM statut_commande
+                                                WHERE statut_commande.statut_commande_value = 0');
+        $idCommandeArray = $idCommandeQuery->fetchAll();
+        $respond = [];
+
+        foreach($idCommandeArray as $idCommande){
+            $query = $this->connexion->query('SELECT * FROM commande
+                                            WHERE identifiant_commande = '.$idCommande['identifiant_commande'].'');
+            $produitIds = $query->fetchAll();
+            $userInfo = $this->getUserById($produitIds[0]['id_users']);
+            $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
+            $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+            foreach($produitIds as $produitId){
+                if(isset($produitId['prix_commande'])){
+                    $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
+                }
+                $produitName = $this->getProductNameById($produitId['id_produits']);
+                $ingredientArray = $this->getIngredientList($produitId['id_ingredients']);
+                $array = [];
+                $array['ingredients'] = $ingredientArray;
+                $array['nom_produits'] = $produitName['nom_produits'];
+                array_push($respond[$idCommande['identifiant_commande']], $array);
+            }
+        }
+        return $respond;
+    }
+
+    public function getUserById($id){
+        $queryStr = 'SELECT identifiant_users, mail_users, nom_users, prenom_users, adresse_users, id_ville_users, tel_users, ville.nom AS nom_ville, ville.codePostal 
+                    FROM users
+                    INNER JOIN ville 
+                    ON ville.ID = users.id_ville_users
+                    WHERE id_users = '.$id.'';
+        $query = $this->connexion->query($queryStr);
+        $respond = $query->fetch();
+        return $respond;
+    }
+
     public function getIngredientList($numList) {
 
         $ingredientIdArray = explode(';', $numList);

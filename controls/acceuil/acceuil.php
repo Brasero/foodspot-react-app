@@ -1,4 +1,7 @@
 <?php
+setlocale(LC_ALL, 'fr_FR.utf-8', 'fra');
+date_default_timezone_set('Europe/Paris');
+
 $today = date("d.m.y");
 $totalOfDay = 0;
 $totalCommandeDay = 0;
@@ -74,6 +77,10 @@ foreach($totauxPanier as $panier){
 }
 
 $panierMoyen = $panierMoyen / $nbPanier;
+
+$commandeEnCour = [];
+
+$commandeEnCour = $bdd->getCommande0();
 
 
 
@@ -158,5 +165,92 @@ $panierMoyen = $panierMoyen / $nbPanier;
             </div>
         </div>
 
+    </div>
+</div>
+<div class="d-flex mt-3 row row-col-1 row-col-md-1">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h4 class="h4 text-center">Commandes en cours</h4>
+            </div>
+            <div class="card-content">
+                <div class="accordion row" id="commandeAccordion">
+                    <?php
+                        foreach($commandeEnCour as $commandeNb => $value){
+                            $commandeTime = strftime(' %A %d %b %Y à %H:%M', $commandeNb);
+                            echo '
+                                <div class="accordion-item ms-1 col-12">
+                                   <h2 class="accordion-header ms-2 p-1" id="b'.$commandeNb.'">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c'.$commandeNb.'" aria-expanded="true" aria-controls="c'.$commandeNb.'">
+                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong>
+                                        </button>
+                                   </h2>
+                                   <div id="c'.$commandeNb.'" class="accordion-collapse collapse" aria-labelledby="b'.$commandeNb.'">
+                                        <div class="accordion-body">
+                                            <div class="card border-primary col-md-6 col-12 mb-4">
+                                                <div class="card-header bg-primary text-white">
+                                                    <div class="card-title">
+                                                        <h4>Client</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        Nom : <strong class="fw-bold">'.$value['user']['nom_users'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Prenom : <strong class="fw-bold">'.$value['user']['prenom_users'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Adresse : <strong class="fw-bold">'.$value['user']['adresse_users'].', '.$value['user']['nom_ville'].' - '.$value['user']['codePostal'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Numero : <strong class="fw-bold">+33'.$value['user']['tel_users'].'</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">';
+                                        foreach($value as $itemKey => $item){
+                                            if(isset($item['ingredients'])){
+                                                $ingredientStr = '';
+                                                foreach($item['ingredients'] as $ingredient){
+                                                    if($ingredient != false){
+                                                        $ingredientStr = $ingredientStr.'<li class="list-group-item">'.$ingredient['nom_ingredients'].'</li>';
+                                                    }
+                                                }
+                                                echo '
+                                                    <div class="card mx-2 mb-2 bg-secondary text-white col-12 col-md-6">
+                                                        <div class="card-header">
+                                                            <div class="card-title">
+                                                                <h4>
+                                                                    '.$item['nom_produits'].'
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <ul class="list-group ">
+                                                                '.$ingredientStr.'
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                ';
+                                            }
+                                        }
+
+                            echo                '
+                                            </div>
+                                            <div class="d-grid">
+                                                <button class="btn btn-outline-success">
+                                                    Valider
+                                                </button>
+                                            </div>
+                                        </div>
+                                   </div>
+                                </div>
+                            ';
+                        }
+                    ?>
+                </div>                
+            </div>
+        </div>
     </div>
 </div>

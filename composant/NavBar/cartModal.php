@@ -34,8 +34,13 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                     $label = str_replace(' ', '', $itemName['nom_produits']);
                                     $label = htmlspecialchars(str_replace('\'', '', $label));
                                     $label = str_replace('\' ', '', $label);
+                                    $label = str_replace('é', 'e', $label);
+                                    $label = str_replace('è', 'e', $label);
+                                    $label = str_replace('à', 'a', $label);
+                                    $label = str_replace('ç', 'c', $label);
+                                    $label = str_replace('ù', 'u', $label);
+                                    $label = str_replace('ê', 'e', $label);
                                     $label = $label.'-'.$itemCount;
-
                                     echo '
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="heading'.$label.'-'.$itemName['id_produits'].'">
@@ -50,17 +55,19 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                                 <ul class="accordion-body list-group-flush list-group">
                                                 ';
                                     foreach($ingredientList as $ingredient){
-                                        if($ingredient['dispo_ingredients']){
-                                            echo '
-                                            <li class="list-group-item">
-                                                '.$ingredient['nom_ingredients'].'
-                                            </li>';
-                                            }
-                                        else{
-                                            echo '
-                                            <li class="list-group-item text-muted">
-                                                '.$ingredient['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger ms-4">Rupture</span>
-                                            </li>';
+                                        if($ingredient){
+                                            if($ingredient['dispo_ingredients'] == 1){
+                                                echo '
+                                                <li class="list-group-item">
+                                                    '.$ingredient['nom_ingredients'].'
+                                                </li>';
+                                                }
+                                            else{
+                                                echo '
+                                                <li class="list-group-item text-muted">
+                                                    '.$ingredient['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger ms-4">Rupture</span>
+                                                </li>';
+                                                }
                                         }
                                     }
 
