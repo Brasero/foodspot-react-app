@@ -74,6 +74,9 @@ if(isset(
             include('./pages/signIn.php');
             include('./pages/acceuil.php');
         }
+        elseif(isset($_GET['page'], $_SESSION['user']) AND $_GET['page'] == 'compte'){
+            include('./pages/compte.php');
+        }
         else{
             include('./pages/acceuil.php');
         }

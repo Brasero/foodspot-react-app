@@ -22,10 +22,10 @@ $categoriesArray = $bdd->getCategoriesName();
                 <button class="nav-link dropdown-toggle btn btn-md btn-outline-light me-3" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="bi-solid bi-person"></span>
                     <?php if(isset($_SESSION['user'])){echo '<div class="d-inline">'.$_SESSION['user']['nom_users'].' <span class="d-none d-sm-inline">'.$_SESSION['user']['prenom_users'].'</span></div>';}
-                                else{ echo 'Mon compte';} ?>
+                                else{ echo 'Connexion /<br/> Inscription';} ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="accountDropdown">
-                    <a href="#" class="dropdown-item">
+                    <a href="index.php?page=compte" class="dropdown-item">
                         <span class="bi bi-person"></span>
                         Mon compte
                     </a>

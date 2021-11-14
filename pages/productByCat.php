@@ -103,12 +103,23 @@ if(isset($id)){
                                     </div>
                                 ';
                             }
-                            else{
+                            elseif(isset($_SESSION['user'])){
                                 echo '
                                     <div class="d-grid">
                                         <button class="btn btn-outline-success" onclick="addProductWhithoutIngredient('.$productInfo['id_produits'].', '.$_SESSION['user']['id_users'].')">
                                             + Ajouter au panier
                                         </button>
+                                    </div>
+                                ';
+                            }
+                            else{
+                                echo '
+                                    <div class="d-grid">
+                                        <a class="btn btn-outline-secondary" href="index.php?page=1">
+                                            <span class="bi bi-box-arrow-in-right">
+                                            </span>
+                                            Se connecter
+                                        </a>
                                     </div>
                                 ';
                             }

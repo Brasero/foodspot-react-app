@@ -9,8 +9,8 @@ if (isset($_POST['g-recaptcha-response']) && !empty ($_POST['g-recaptcha-respons
         $errMsg = 'La vérification du robot a échoué, veuillez réessayer.'; 
     }
 }
-else{
-    $errMsg = 'Veuillez valider le captcha.';
+elseif(isset($_POST['signIn_nom'])){
+    $errMsg = 'Veuillez valider le captcha pour vous inscrire.';
 }
 ?>
 
@@ -19,7 +19,7 @@ else{
 if(!isset($succMsg)){
 
     if(isset($errMsg)){
-        echo '<div class="h3 text-danger text-center">'.$errMsg.'</div>';
+        echo '<div class="h5 mt-1 text-danger text-center">'.$errMsg.'</div>';
     }
 ?>
 <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto">
@@ -52,11 +52,12 @@ if(!isset($succMsg)){
        <label for="inputNum">Numéro de téléphone</lebel> 
     </div>
     <div class="form-floating mb-2">
-        <input class="form-control" type="password" id="inputPassword" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
+        <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16"  name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
         <label for="inputPassword">Mot de passe</label>
+        <small class="text-muted fs-10 ms-1">Entre 4 et 16 caractères</small>
     </div>
     <div class="form-floating mb-3">
-        <input class="form-control" type="password" id="inputConfirmPassword" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
+        <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
         <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
     </div>
     <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
@@ -96,8 +97,10 @@ else if(isset(
                 }
             }
 
+
+
             if($emailExist){
-                echo'<div class="text-danger text-center h3">Votre adresse email est déjà connue de nos systéme, connectez-vous.</div>';
+                echo'<div class="text-danger text-center h4">Erreur : Email connu, <a href="index.php?page=1" class="text-danger">connectez-vous.</a></div>';
             }
             else{
                 $nom = $_POST['signIn_nom'];
@@ -179,11 +182,12 @@ else if(isset(
                <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
                <label for="inputNum">Numéro de téléphone</lebel> </div>
                 <div class="form-floating mb-2">
-                    <input class="form-control" type="password" id="inputPassword" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
+                    <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
                     <label for="inputPassword">Mot de passe</label>
+                    <small class="text-muted fs-1">Entre 4 et 16 caractères</small>
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" type="password" id="inputConfirmPassword" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
+                    <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
                     <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
                 </div>
                 <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
@@ -226,11 +230,12 @@ else if(!isset($succMsg)){
        <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
        <label for="inputNum">Numéro de téléphone</lebel> </div>
         <div class="form-floating mb-2">
-            <input class="form-control" type="password" id="inputPassword" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
+            <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
             <label for="inputPassword">Mot de passe</label>
+            <small class="text-muted fs-1">Entre 4 et 16 caractères</small>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" type="password" id="inputConfirmPassword" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
+            <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
             <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
         </div>
         <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
@@ -271,14 +276,16 @@ else{
             <label for="inputEmail">Adresse Email</label>
         </div>
         <div class="form-floating mb-3">
-       <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
-       <label for="inputNum">Numéro de téléphone</lebel> </div>
+            <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
+            <label for="inputNum">Numéro de téléphone</lebel> 
+        </div>
         <div class="form-floating mb-2">
-            <input class="form-control" type="password" id="inputPassword" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
+            <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
             <label for="inputPassword">Mot de passe</label>
+            <small class="text-muted fs-1">Entre 4 et 16 caractères</small>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" type="password" id="inputConfirmPassword" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
+            <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
             <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
         </div>
         <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
