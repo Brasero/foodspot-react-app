@@ -16,7 +16,13 @@ foreach($commandeList as $item){
     }
 }
 
-$starProductQuery = $bdd->connexion->prepare('SELECT categories.nom_categories, produits.nom_produits, `id_commande`, `identifiant_commande`, commande.id_produits, commande.id_ingredients, `id_users`, `prix_commande`, count(commande.id_produits) AS total FROM `commande` INNER JOIN produits ON produits.id_produits = commande.id_produits INNER JOIN categories ON categories.id_categories = produits.id_categorie GROUP BY id_produits');
+$starProductQuery = $bdd->connexion->prepare('SELECT categories.nom_categories, produits.nom_produits, `id_commande`, `identifiant_commande`, commande.id_produits, commande.id_ingredients, `id_users`, `prix_commande`, count(commande.id_produits) AS total 
+                                            FROM `commande` 
+                                            INNER JOIN produits 
+                                            ON produits.id_produits = commande.id_produits 
+                                            INNER JOIN categories 
+                                            ON categories.id_categories = produits.id_categorie 
+                                            GROUP BY id_produits');
 
 if($starProductQuery->execute()){
     $starProduct = $starProductQuery->fetchAll();
@@ -25,19 +31,28 @@ else{
     var_dump($starProductQuery->errorInfo());
 }
 
-for($i = 0; $i < sizeof($starProduct); $i++){
-    if($i === 0){
-        $maxCount = $starProduct[$i]['total'];
-        $star = $starProduct[$i]['nom_produits'];
-        $starCat = $starProduct[$i]['nom_categories'];
-    }
-    else{
-        if($starProduct[$i]['total'] > $maxCount){
+
+
+if(isset($starProduct) && !empty($starProduct)){
+    for($i = 0; $i < sizeof($starProduct); $i++){
+        if($i === 0){
             $maxCount = $starProduct[$i]['total'];
             $star = $starProduct[$i]['nom_produits'];
             $starCat = $starProduct[$i]['nom_categories'];
         }
+        else{
+            if($starProduct[$i]['total'] > $maxCount){
+                $maxCount = $starProduct[$i]['total'];
+                $star = $starProduct[$i]['nom_produits'];
+                $starCat = $starProduct[$i]['nom_categories'];
+            }
+        }
     }
+}
+else{
+    $starCat = '';
+    $star = 'Aucun produit star';
+    $maxCount = 0;
 }
 
 $actualMonth = date('m');
@@ -76,11 +91,15 @@ foreach($totauxPanier as $panier){
     $panierMoyen += $panier;
 }
 
-$panierMoyen = $panierMoyen / $nbPanier;
+if($nbPanier != 0){   
+    $panierMoyen = $panierMoyen / $nbPanier;
+}
 
 $commandeEnCour = [];
 
 $commandeEnCour = $bdd->getCommande0();
+
+$commandePriseEnCharge = $bdd->getCommande1();
 
 
 
@@ -171,7 +190,7 @@ $commandeEnCour = $bdd->getCommande0();
     <div class="card">
         <div class="card-body">
             <div class="card-title">
-                <h4 class="h4 text-center">Commandes en cours</h4>
+                <h3 class="h3 text-center fw-bold">Commandes en cours</h3>
             </div>
             <div class="card-content">
                 <div class="accordion row" id="commandeAccordion">
@@ -210,7 +229,7 @@ $commandeEnCour = $bdd->getCommande0();
                                             </div>
                                             <div class="row">';
                                         foreach($value as $itemKey => $item){
-                                            if(isset($item['ingredients'])){
+                                            if(isset($item['ingredients']) && is_int($itemKey)){
                                                 $ingredientStr = '';
                                                 foreach($item['ingredients'] as $ingredient){
                                                     if($ingredient != false){
@@ -218,7 +237,7 @@ $commandeEnCour = $bdd->getCommande0();
                                                     }
                                                 }
                                                 echo '
-                                                    <div class="card mx-2 mb-2 bg-secondary text-white col-12 col-md-6">
+                                                    <div class="card mx-2 mb-2 bg-secondary text-white col-12 col-md-5">
                                                         <div class="card-header">
                                                             <div class="card-title">
                                                                 <h4>
@@ -234,12 +253,24 @@ $commandeEnCour = $bdd->getCommande0();
                                                     </div>
                                                 ';
                                             }
+                                            elseif($itemKey != 'user' && $itemKey != 'prix_total'){
+                                                echo '
+                                                <div class="card mx-0 mb-2 bg-secondary text-white col-6 col-md-1">
+                                                    <div class="card-body text-center py-5">
+                                                        <div class="card-title ">
+                                                            <h4>
+                                                                '.$item['nom_produits'].'
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>';
+                                            }
                                         }
 
                             echo '
                                             </div>
                                             <div class="d-grid">
-                                                <button class="btn btn-outline-success">
+                                                <button class="btn btn-outline-success" onclick="validateCommande('.$commandeNb.')">
                                                     Valider
                                                 </button>
                                             </div>
@@ -254,3 +285,134 @@ $commandeEnCour = $bdd->getCommande0();
         </div>
     </div>
 </div>
+<div class="d-flex mt-3 row row-col-1 row-col-md-1">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h3 class="h3 text-center fw-bold">Commandes prise en charge</h3>
+            </div>
+            <div class="card-content">
+                <div class="accordion row" id="commandeAccordion">
+                    <?php
+                        foreach($commandePriseEnCharge as $commandeNb => $value){
+                            $commandeTime = strftime(' %A %d %b %Y à %H:%M', $commandeNb);
+                            echo '
+                                <div class="accordion-item ms-1 col-12">
+                                   <h2 class="accordion-header ms-2 p-1" id="b'.$commandeNb.'">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c'.$commandeNb.'" aria-expanded="true" aria-controls="c'.$commandeNb.'">
+                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong>
+                                        </button>
+                                   </h2>
+                                   <div id="c'.$commandeNb.'" class="accordion-collapse collapse" aria-labelledby="b'.$commandeNb.'">
+                                        <div class="accordion-body">
+                                            <div class="card border-primary col-md-6 col-12 mb-4">
+                                                <div class="card-header bg-primary text-white">
+                                                    <div class="card-title">
+                                                        <h4>Client</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        Nom : <strong class="fw-bold">'.$value['user']['nom_users'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Prenom : <strong class="fw-bold">'.$value['user']['prenom_users'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Adresse : <strong class="fw-bold">'.$value['user']['adresse_users'].', '.$value['user']['nom_ville'].' - '.$value['user']['codePostal'].'</strong>
+                                                    </div>
+                                                    <div>
+                                                        Numero : <strong class="fw-bold">+33'.$value['user']['tel_users'].'</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">';
+                                        foreach($value as $itemKey => $item){
+                                            if(isset($item['ingredients']) && $itemKey != 'user' && $itemKey != 'prix_total'){
+                                                $ingredientStr = '';
+                                                foreach($item['ingredients'] as $ingredient){
+                                                    if($ingredient != false){
+                                                        $ingredientStr = $ingredientStr.'<li class="list-group-item">'.$ingredient['nom_ingredients'].'</li>';
+                                                    }
+                                                }
+                                                echo '
+                                                    <div class="card mx-2 mb-2 bg-secondary text-white col-12 col-md-5">
+                                                        <div class="card-header">
+                                                            <div class="card-title">
+                                                                <h4>
+                                                                    '.$item['nom_produits'].'
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <ul class="list-group ">
+                                                                '.$ingredientStr.'
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                ';
+                                            }
+                                            elseif($itemKey != 'user' && $itemKey != 'prix_total'){
+                                                echo '
+                                                <div class="card mx-0 mb-2 bg-secondary text-white col-6 col-md-1">
+                                                    <div class="card-body text-center py-5">
+                                                        <div class="card-title ">
+                                                            <h4>
+                                                                '.$item['nom_produits'].'
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>';
+                                            }
+                                        }
+
+                            echo '
+                                            </div>
+                                            <div class="d-grid">
+                                                <button class="btn btn-outline-success" onclick="deliverCommande('.$commandeNb.')">
+                                                    Commande livrée
+                                                </button>
+                                            </div>
+                                        </div>
+                                   </div>
+                                </div>
+                            ';
+                        }
+                    ?>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+function validateCommande(id){
+    var url = '../config/validateCommande.php?id_commande='+id;
+
+    var request = new XMLHttpRequest();
+
+    request.open('GET', url);
+    request.send();
+    request.onload = function(){
+        location.reload();
+    }
+}
+
+function deliverCommande(id){
+    var url = '../config/deliverCommande.php?id_commande='+id;
+
+    var request = new XMLHttpRequest();
+
+    request.open('GET', url);
+    request.send();
+    request.onload = function(){
+        location.reload();
+    }
+}
+
+setTimeout(function(){
+    location.reload();
+}, 60000)
+
+</script>

@@ -91,11 +91,7 @@ function createCartItem($idProduit, $ingredientString, $idUser, $price){
 
 $cartItem = createCartItem($data['idProduit'], $ingredientString, $data['idUser'], $commandePrice);
 
-var_dump($data);
-var_dump($ingredientString);
-var_dump($cartItem);
-//Verifier la construction de la chaine de caractére
-/*
+
 if(isset(
     $cartItem['identifiant_panier'], 
     $cartItem['id_produits'], 
@@ -117,5 +113,4 @@ if(isset(
 
         header('Location: ../index.php?cat='.$cat.'');
     }
-*/
 ?>

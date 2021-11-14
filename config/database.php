@@ -92,30 +92,83 @@ class DataBase{
         return $respond;
     }
 
+    public function validateCommande($commande){
+        $queryStr = 'UPDATE statut_commande SET statut_commande_value = 1 WHERE identifiant_commande = :id';
+        $query = $this->connexion->prepare($queryStr);
+        $query->bindParam(':id', $commande, PDO::PARAM_INT);
+        $query->execute();
+    }
+
+    public function deliverCommande($commande){
+        $queryStr = 'UPDATE statut_commande SET statut_commande_value = 2 WHERE identifiant_commande = :id';
+        $query = $this->connexion->prepare($queryStr);
+        $query->bindParam(':id', $commande, PDO::PARAM_INT);
+        $query->execute();
+    }
+
     public function getCommande0() {
         $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
                                                 FROM statut_commande
-                                                WHERE statut_commande.statut_commande_value = 0');
+                                                WHERE statut_commande.statut_commande_value = 0 
+                                                ORDER BY identifiant_commande DESC');
         $idCommandeArray = $idCommandeQuery->fetchAll();
         $respond = [];
-
         foreach($idCommandeArray as $idCommande){
-            $query = $this->connexion->query('SELECT * FROM commande
+            if(isset($idCommande)){
+                $query = $this->connexion->query('SELECT * FROM commande
                                             WHERE identifiant_commande = '.$idCommande['identifiant_commande'].'');
-            $produitIds = $query->fetchAll();
-            $userInfo = $this->getUserById($produitIds[0]['id_users']);
-            $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
-            $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
-            foreach($produitIds as $produitId){
-                if(isset($produitId['prix_commande'])){
-                    $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
+                $produitIds = $query->fetchAll();
+                $userInfo = $this->getUserById($produitIds[0]['id_users']);
+                $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
+                $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                foreach($produitIds as $produitId){
+                    if(isset($produitId['prix_commande'])){
+                        $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
+                    }
+                    $array = [];
+                    $produitName = $this->getProductNameById($produitId['id_produits']);
+                    if(isset($produitId['id_ingredients']) && $produitId['id_ingredients'] != NULL){
+                        $ingredientArray = $this->getIngredientList($produitId['id_ingredients']);
+                        $array['ingredients'] = $ingredientArray;
+                    }
+                    $array['nom_produits'] = $produitName['nom_produits'];
+                    array_push($respond[$idCommande['identifiant_commande']], $array);
                 }
-                $produitName = $this->getProductNameById($produitId['id_produits']);
-                $ingredientArray = $this->getIngredientList($produitId['id_ingredients']);
-                $array = [];
-                $array['ingredients'] = $ingredientArray;
-                $array['nom_produits'] = $produitName['nom_produits'];
-                array_push($respond[$idCommande['identifiant_commande']], $array);
+            }
+        }
+        return $respond;
+    }
+
+    public function getCommande1() {
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+                                                FROM statut_commande
+                                                WHERE statut_commande.statut_commande_value = 1');
+        $idCommandeArray = $idCommandeQuery->fetchAll();
+        $respond = [];
+        foreach($idCommandeArray as $idCommande){
+            if(isset($idCommande)){
+                $query = $this->connexion->query('SELECT * FROM commande
+                                            WHERE identifiant_commande = '.$idCommande['identifiant_commande'].'');
+                $produitIds = $query->fetchAll();
+                $userInfo = $this->getUserById($produitIds[0]['id_users']);
+                $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
+                $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                foreach($produitIds as $produitId){
+                    if(isset($produitId['prix_commande'])){
+                        $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
+                    }
+                    $array = [];
+                    $produitName = $this->getProductNameById($produitId['id_produits']);
+                    if(isset($produitId['id_ingredients']) && $produitId['id_ingredients'] != null){
+                        $ingredientArray = $this->getIngredientList($produitId['id_ingredients']);
+                        $array['ingredients'] = $ingredientArray;
+                    }
+                    $array['nom_produits'] = $produitName['nom_produits'];
+                    array_push($respond[$idCommande['identifiant_commande']], $array);
+                }
+            }
+            else{
+                $respond = null;
             }
         }
         return $respond;
