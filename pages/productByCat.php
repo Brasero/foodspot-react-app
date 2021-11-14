@@ -54,41 +54,67 @@ if(isset($id)){
                         </span>
                         <img class="card-img-top" src="./assets/img/'.$productInfo['img_produits'].'" alt="Card image" />
                         <div class="card-body p-1">
-                            <h5 class="card-title text-left mb-4 mt-3">
+                            <h5 class="card-title text-left mb-2 mt-1">
                                 '.$productInfo['nom_produits'].'
                             </h5>
-                            <div class="d-grid">
-                                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseIngredient'.$productInfo['id_produits'].'">
-                                    Ingrédients
-                                </button>
-                            </div>
+                            <div>';
+                            
+                            if(isset($productInfo['id_ingredients']) && !empty($productInfo['id_ingredients'])){
+                                echo '
+                                <div class="d-grid">
+                                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseIngredient'.$productInfo['id_produits'].'">
+                                        Ingrédients
+                                    </button>
+                                </div>
+                                ';
+                            }
+                    if(isset($productInfo['id_ingredients']) && !empty($productInfo['id_ingredients'])){
+
+                            echo'                            
                             <p class="card-text">
                                 <ul class="list-group list-group-flush collapse text-left" id="collapseIngredient'.$productInfo['id_produits'].'">
                                     ';
-                                    $ingredientDetailList = $bdd->getIngredientList($productInfo['id_ingredients']);
-                                    foreach($ingredientDetailList as $ingredientDetail){
-                                        if($ingredientDetail['dispo_ingredients']){
-                                        echo '
-                                        <li class="list-group-item">
-                                            '.$ingredientDetail['nom_ingredients'].'
-                                        </li>';
-                                        }
-                                        else{
-                                            echo '
-                                            <li class="list-group-item text-muted">
-                                                '.$ingredientDetail['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger d-none d-sm-inline ms-4">Rupture</span>
-                                            </li>';
-                                        }
+                            $ingredientDetailList = $bdd->getIngredientList($productInfo['id_ingredients']);
+                                foreach($ingredientDetailList as $ingredientDetail){
+                                    if($ingredientDetail['dispo_ingredients']){
+                                    echo '
+                                    <li class="list-group-item">
+                                        '.$ingredientDetail['nom_ingredients'].'
+                                    </li>';
                                     }
-                    echo '
-                                </ul>
-                            </p>
-                            
-                        </div>
-                        <div class="d-grid">
-                            <button type="button" class="btn click btn-outline-secondary m-1" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
-                                Voir +
-                            </button>    
+                                    else{
+                                        echo '
+                                        <li class="list-group-item text-muted">
+                                            '.$ingredientDetail['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger d-none d-sm-inline ms-4">Rupture</span>
+                                        </li>';
+                                    }
+                                }
+                              }      
+                        echo '
+                                    </ul>
+                                </p>';
+                            if(isset($productInfo['id_ingredients']) && !empty($productInfo['id_ingredients'])){
+
+                                echo '
+                                    <div class="d-grid">
+                                        <button type="button" class="btn click btn-outline-secondary" data-toggle="modal" data-target="#moreModal" data-produit="'.$productInfo['id_produits'].'" data-categorie='.$_GET['cat'].' data-ingredient="'.$productInfo['id_ingredients'].'" >
+                                            Voir +
+                                        </button>    
+                                    </div>
+                                ';
+                            }
+                            else{
+                                echo '
+                                    <div class="d-grid">
+                                        <button class="btn btn-outline-success" onclick="addProductWhithoutIngredient('.$productInfo['id_produits'].', '.$_SESSION['user']['id_users'].')">
+                                            + Ajouter au panier
+                                        </button>
+                                    </div>
+                                ';
+                            }
+
+                        echo '        
+                            </div>
                         </div>
                     </div>';
                 }
@@ -119,7 +145,6 @@ if(isset($id)){
 
     $('.click').on('click', function(event) {
         var button = $(event.target)
-        console.log(button)
         var product = button.data('produit')
         var ingredientList = button.data('ingredient')
         var categorie = button.data('categorie')
@@ -155,4 +180,16 @@ if(isset($id)){
         }
         
     })
+
+    function addProductWhithoutIngredient(id, user) {
+        var url = './config/addToCartWhithoutIngredient.php?idProduit='+id+'&user='+user
+
+        var request = new XMLHttpRequest();
+
+        request.open('GET', url)
+        request.send()
+        request.onload = function(){
+            location.reload();
+        }
+    }
 </script>
