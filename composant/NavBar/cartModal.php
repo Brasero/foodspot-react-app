@@ -30,7 +30,6 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                     $itemCount ++;
                                     $totalCart += $item['price'];
                                     $itemName = $bdd->getProductById($item['id_produits']);
-                                    $ingredientList = $bdd->getIngredientList($item['id_ingredients']);
                                     $label = str_replace(' ', '', $itemName['nom_produits']);
                                     $label = htmlspecialchars(str_replace('\'', '', $label));
                                     $label = str_replace('\' ', '', $label);
@@ -41,6 +40,11 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                     $label = str_replace('ù', 'u', $label);
                                     $label = str_replace('ê', 'e', $label);
                                     $label = $label.'-'.$itemCount;
+
+                                    if(isset($item['id_ingredients'])){
+                                        $ingredientList = $bdd->getIngredientList($item['id_ingredients']);
+                                    }
+
                                     echo '
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="heading'.$label.'-'.$itemName['id_produits'].'">
@@ -54,20 +58,22 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                             <div id="'.$label.'-'.$itemName['id_produits'].'" class="accordion-collapse collapse" aria-labelledby="heading'.$label.'-'.$itemName['id_produits'].'" data-bs-parent="#modalCartAccordion">
                                                 <ul class="accordion-body list-group-flush list-group">
                                                 ';
-                                    foreach($ingredientList as $ingredient){
-                                        if($ingredient){
-                                            if($ingredient['dispo_ingredients'] == 1){
-                                                echo '
-                                                <li class="list-group-item">
-                                                    '.$ingredient['nom_ingredients'].'
-                                                </li>';
-                                                }
-                                            else{
-                                                echo '
-                                                <li class="list-group-item text-muted">
-                                                    '.$ingredient['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger ms-4">Rupture</span>
-                                                </li>';
-                                                }
+                                    if(isset($ingredientList)){
+                                        foreach($ingredientList as $ingredient){
+                                            if($ingredient){
+                                                if($ingredient['dispo_ingredients'] == 1){
+                                                    echo '
+                                                    <li class="list-group-item">
+                                                        '.$ingredient['nom_ingredients'].'
+                                                    </li>';
+                                                    }
+                                                else{
+                                                    echo '
+                                                    <li class="list-group-item text-muted">
+                                                        '.$ingredient['nom_ingredients'].' <span class="text-danger bi bi-patch-exclamation"></span><span class="text-danger ms-4">Rupture</span>
+                                                    </li>';
+                                                    }
+                                            }
                                         }
                                     }
 

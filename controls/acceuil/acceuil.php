@@ -236,7 +236,7 @@ $commandeEnCour = $bdd->getCommande0();
                                             }
                                         }
 
-                            echo                '
+                            echo '
                                             </div>
                                             <div class="d-grid">
                                                 <button class="btn btn-outline-success">

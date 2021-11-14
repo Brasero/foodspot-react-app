@@ -8,6 +8,11 @@ if(isset($_POST['nom'], $_POST['prix'], $_POST['ingredient'], $_POST['cat'])){
 
     $bdd->addProduct($_POST['nom'], $_POST['prix'], $_POST['ingredient'], $_POST['cat'], $_FILES);
 }
+elseif(isset($_POST['nom'], $_POST['prix'], $_POST['cat'])){
+
+    $bdd->addProductWhithoutIngredient($_POST['nom'], $_POST['prix'], $_POST['cat'], $_FILES);
+
+}
 
 ?>
 

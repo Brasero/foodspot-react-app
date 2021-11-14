@@ -28,10 +28,12 @@ $getQuery->execute();
 $productInfo = $getQuery->fetch();
 $productIngredientIdArray = explode(';', $productInfo['id_ingredients']);
 $productIngredientArray = [];
-foreach($productIngredientIdArray as $productIngredient){
-    $query = $bdd->connexion->query('SELECT * FROM ingredients WHERE id_ingredients = '.$productIngredient.'');
-    $ingredient = $query->fetch();
-    array_push($productIngredientArray, $ingredient);
+if(isset($productIngredientArray) && !empty($productIngredientArray)){
+    foreach($productIngredientIdArray as $productIngredient){
+        $query = $bdd->connexion->query('SELECT * FROM ingredients WHERE id_ingredients = '.$productIngredient.'');
+        $ingredient = $query->fetch();
+        array_push($productIngredientArray, $ingredient);
+    }
 }
 
 $productInfo['ingredientArray'] = $productIngredientArray;

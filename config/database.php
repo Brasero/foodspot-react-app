@@ -121,7 +121,7 @@ class DataBase{
         return $respond;
     }
 
-    public function getUserById($id){
+    private function getUserById($id){
         $queryStr = 'SELECT identifiant_users, mail_users, nom_users, prenom_users, adresse_users, id_ville_users, tel_users, ville.nom AS nom_ville, ville.codePostal 
                     FROM users
                     INNER JOIN ville 
@@ -227,6 +227,36 @@ class DataBase{
         }
         header('Location: index.php?page=2');
 
+    }
+
+    public function addProductWhithoutIngredient($nom, $prix, $cat, $img){
+        $imgName = $img['img']['name'];
+        $imgObj = $img['img']['tmp_name'];
+        $identifiant = time();
+        $price = str_replace(',', '.', $prix);
+        $dispo = 1;
+        $ingredient = null;
+
+        $insertQueryStr = 'INSERT INTO produits
+                            (identifiant_produits, nom_produits, prix_produits, id_categorie, id_ingredients, dispo_produits, img_produits)
+                            VALUES (:idProd, :nom, :prix, :cat, :ingredient, :dispo, :img)';
+
+        $insertQuery = $this->connexion->prepare($insertQueryStr);
+        $insertQuery->bindParam(':idProd', $identifiant, PDO::PARAM_INT);
+        $insertQuery->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $insertQuery->bindParam(':prix', $price, PDO::PARAM_STR);
+        $insertQuery->bindParam(':cat', $cat, PDO::PARAM_INT);
+        $insertQuery->bindParam(':ingredient', $ingredient, PDO::PARAM_NULL);
+        $insertQuery->bindParam(':dispo', $dispo, PDO::PARAM_INT);
+        $insertQuery->bindParam(':img', $imgName, PDO::PARAM_STR);
+
+        if($insertQuery->execute()){
+            move_uploaded_file($imgObj, '../assets/img/'.$imgName);
+        }
+        else{
+            return $insertQuery->errorInfo();
+        }
+        header('Location: index.php?page=2');
     }
 
     public function addIngredient($name, $price){
