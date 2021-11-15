@@ -54,11 +54,12 @@ if(isset(
         
     </head>
 
-    <body class="w-100 bg-light mx-auto" style="max-width: 1024px; align-items: center;">
+    <body class="bg-light">
 
         <header>
 
         </header>
+        <div class="w-100 mx-auto" style="max-width: 1024px; align-items: center; background: transparent;">
         <?php 
         include_once('./composant/NavBar/navBar.php'); 
         include_once('./composant/NavBar/cartModal.php');
@@ -82,10 +83,12 @@ if(isset(
         }
         ?>
         
-
+        </div>
 
         <footer>
-
+            <?php
+                include('./composant/Footer/footer.php');
+            ?>
         </footer>
         <!-- END OF FILE  -->
         
