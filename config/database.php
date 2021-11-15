@@ -106,6 +106,20 @@ class DataBase{
         $query->execute();
     }
 
+    function updateUserInfo($userId, $userInfoName, $userInfo, $param){
+        if($param == 1){
+            $pdoParam = PDO::PARAM_INT;
+        }
+        elseif($param == 0){
+            $pdoParam = PDO::PARAM_STR;
+        }
+        $updateQueryStr = 'UPDATE users SET '.$userInfoName.' = :info WHERE id_users = :id';
+        $updateQuery = $this->connexion->prepare($updateQueryStr);
+        $updateQuery->bindParam(':info', $userInfo, $pdoParam);
+        $updateQuery->bindParam(':id', $userId, PDO::PARAM_INT);
+        $updateQuery->execute();
+    }
+
     public function getCommande0() {
         $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
                                                 FROM statut_commande
@@ -142,7 +156,8 @@ class DataBase{
     public function getCommande1() {
         $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
                                                 FROM statut_commande
-                                                WHERE statut_commande.statut_commande_value = 1');
+                                                WHERE statut_commande.statut_commande_value = 1
+                                                ORDER BY identifiant_commande DESC');
         $idCommandeArray = $idCommandeQuery->fetchAll();
         $respond = [];
         foreach($idCommandeArray as $idCommande){
@@ -159,16 +174,13 @@ class DataBase{
                     }
                     $array = [];
                     $produitName = $this->getProductNameById($produitId['id_produits']);
-                    if(isset($produitId['id_ingredients']) && $produitId['id_ingredients'] != null){
+                    if(isset($produitId['id_ingredients']) && $produitId['id_ingredients'] != NULL){
                         $ingredientArray = $this->getIngredientList($produitId['id_ingredients']);
                         $array['ingredients'] = $ingredientArray;
                     }
                     $array['nom_produits'] = $produitName['nom_produits'];
                     array_push($respond[$idCommande['identifiant_commande']], $array);
                 }
-            }
-            else{
-                $respond = null;
             }
         }
         return $respond;

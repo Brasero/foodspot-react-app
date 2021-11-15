@@ -22,8 +22,8 @@ if(!isset($succMsg)){
         echo '<div class="h5 mt-1 text-danger text-center">'.$errMsg.'</div>';
     }
 ?>
-<form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto">
-    <h2 class="h2 mb-3">
+<form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto card p-2">
+    <h2 class="h2 mb-3 card-title">
         <span class="bi bi-file-earmark-person"></span>
         S'inscrire
     </h2>
@@ -47,9 +47,9 @@ if(!isset($succMsg)){
         <input class="form-control" type="email" id="inputEmail" name="signIn_email" placeholder="Adresse Email" />
         <label for="inputEmail">Adresse Email</label>
     </div>
-    <div class="form-floating mb-3">
-       <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
-       <label for="inputNum">Numéro de téléphone</lebel> 
+    <div class="input-group mb-3">
+       <label for="inputNum" class="input-group-text">+33</label>
+       <input class="form-control form-control-lg" id="inputNum" maxlength="9" type="number" name="signIn_num" placeholder="6 00 00 00 00" /> 
     </div>
     <div class="form-floating mb-2">
         <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16"  name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
@@ -110,7 +110,6 @@ else if(isset(
                 $email = $_POST['signIn_email'];
                 $num = $_POST['signIn_num'];
                 $pass = $_POST['signIn_password'];
-                echo $ville;
 
                 $hashPass = password_hash($pass, PASSWORD_DEFAULT);
 
@@ -153,8 +152,8 @@ else if(isset(
         else{
             echo '<div class="text-danger h3 text-center">Vos mot de passe ne correspondent pas, veuillez réessayer</div>';
             echo '
-            <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto">
-                <h2 class="h2 mb-3">
+            <form action="index.php?page=2" method="post" class="card p-2 col-md-4 mt-5 me-auto ms-auto">
+                <h2 class="h2 mb-3 card-title">
                     <span class="bi bi-file-earmark-person"></span>
                     S\'inscrire
                 </h2>
@@ -178,10 +177,11 @@ else if(isset(
                     <input class="form-control" type="email" id="inputEmail" name="signIn_email" placeholder="Adresse Email" />
                     <label for="inputEmail">Adresse Email</label>
                 </div>
-                <div class="form-floating mb-3">
-               <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
-               <label for="inputNum">Numéro de téléphone</lebel> </div>
-                <div class="form-floating mb-2">
+                <div class="finput-groupmb-3">
+                    <label for="inputNum" class="input-group-text">+33</label>        
+                    <input class="form-control" id="inputNum" maxlength="9" type="number" name="signIn_num" placeholder="6 00 00 00 00" />
+               </div>
+               <div class="form-floating mb-2">
                     <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
                     <label for="inputPassword">Mot de passe</label>
                     <small class="text-muted fs-1">Entre 4 et 16 caractères</small>
@@ -201,8 +201,8 @@ else if(!isset($succMsg)){
 
     echo '
     <div class="text-danger h3 text-center">'.$errMsg.'</div>
-    <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto">
-        <h2 class="h2 mb-3">
+    <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto card p-2">
+        <h2 class="h2 mb-3 card-title">
             <span class="bi bi-file-earmark-person"></span>
             S\'inscrire
         </h2>
@@ -226,9 +226,11 @@ else if(!isset($succMsg)){
             <input class="form-control" type="email" id="inputEmail" name="signIn_email" placeholder="Adresse Email" />
             <label for="inputEmail">Adresse Email</label>
         </div>
-        <div class="form-floating mb-3">
-       <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
-       <label for="inputNum">Numéro de téléphone</lebel> </div>
+        <div class="finput-groupmb-3">
+            <label for="inputNum" class="input-group-text">+33</label>        
+            <input class="form-control" id="inputNum" maxlength="9" type="number" name="signIn_num" placeholder="6 00 00 00 00" />
+     
+       </div>
         <div class="form-floating mb-2">
             <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />
             <label for="inputPassword">Mot de passe</label>
@@ -250,8 +252,8 @@ else{
 
     echo '
     <div class="text-danger h3 text-center">'.$errMsg.'</div>
-    <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto">
-        <h2 class="h2 mb-3">
+    <form action="index.php?page=2" method="post" class="col-md-4 mt-5 me-auto ms-auto card p-2">
+        <h2 class="h2 mb-3 card-title">
             <span class="bi bi-file-earmark-person"></span>
             S\'inscrire
         </h2>
@@ -275,9 +277,9 @@ else{
             <input class="form-control" type="email" id="inputEmail" name="signIn_email" placeholder="Adresse Email" />
             <label for="inputEmail">Adresse Email</label>
         </div>
-        <div class="form-floating mb-3">
-            <input class="form-control" id="inputNum" type="number" name="signIn_num" placeholder="Téléphone" />
-            <label for="inputNum">Numéro de téléphone</lebel> 
+        <div class="finput-groupmb-3">
+            <label for="inputNum" class="input-group-text">+33</label>        
+            <input class="form-control" id="inputNum" maxlength="9" type="number" name="signIn_num" placeholder="6 00 00 00 00" />
         </div>
         <div class="form-floating mb-2">
             <input class="form-control" type="password" id="inputPassword" minlength="4" maxlength="16" name="signIn_password" auto-complete="current-password" placeholder="Mot de passe" />

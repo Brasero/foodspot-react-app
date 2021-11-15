@@ -28,7 +28,7 @@ if($starProductQuery->execute()){
     $starProduct = $starProductQuery->fetchAll();
 }
 else{
-    var_dump($starProductQuery->errorInfo());
+    echo '<div class="text-danger">Impossible de se connecter, si le problème persiste contactez votre web Master</div>';
 }
 
 
@@ -100,7 +100,6 @@ $commandeEnCour = [];
 $commandeEnCour = $bdd->getCommande0();
 
 $commandePriseEnCharge = $bdd->getCommande1();
-
 
 
 ?>
@@ -187,6 +186,11 @@ $commandePriseEnCharge = $bdd->getCommande1();
     </div>
 </div>
 <div class="d-flex mt-3 row row-col-1 row-col-md-1">
+        <?php
+            if(empty($commandePriseEnCharge) && empty($commandeEnCour)){
+                echo '<div class="text-white text-center border bg-success py-2 h4">Aucune commande en attente</div>';
+            }
+        ?>
     <div class="card">
         <div class="card-body">
             <div class="card-title">
@@ -328,7 +332,7 @@ $commandePriseEnCharge = $bdd->getCommande1();
                                             </div>
                                             <div class="row">';
                                         foreach($value as $itemKey => $item){
-                                            if(isset($item['ingredients']) && $itemKey != 'user' && $itemKey != 'prix_total'){
+                                            if(isset($item['ingredients']) && is_int($itemKey)){
                                                 $ingredientStr = '';
                                                 foreach($item['ingredients'] as $ingredient){
                                                     if($ingredient != false){
