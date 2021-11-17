@@ -59,7 +59,7 @@ $horaire = '11:00 - 14:30 <br /> 18:00 - 22:00';
     </div>
     <div class="bg-light d-grid border-top pt-3 p-1 mt-2">
         <div class="mx-auto text-center d-flex" style="align-items: center;">
-            Site créé par<a href="https://github.com/Brasero" class="nav-link text-secondary mx-0">Ricci Brandon</a> - 2021 - Tous droits déposés.
+            Site créé par<a href="http://www.linkedin.com/in/brandon-ricci-76ab78144" class="nav-link text-secondary mx-0">Ricci Brandon</a> - 2021 - <a href="https://fr.wikipedia.org/wiki/Plagiat" class="nav-link text-secondary mx-0">Tous droits déposés.</a>
         </div>
     </div>
 </div>
