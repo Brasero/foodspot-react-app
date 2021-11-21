@@ -74,7 +74,7 @@ class DataBase{
 
     public function getCart($user){
         if(isset($user['id_users'])){   
-            $updateQuery = $this->connexion->query('UPDATE cart SET id_users = '.$user['id_users'].' WHERE id_users = '.$user['identifiant_users']);
+            $this->connexion->query('UPDATE cart SET id_users = '.$user['id_users'].' WHERE id_users = '.$user['identifiant_users']);
             $queryStr = 'SELECT * FROM cart WHERE id_users = '.$user['id_users'].' OR id_users = '.$user['identifiant_users'];
             $query = $this->connexion->query($queryStr);
             
