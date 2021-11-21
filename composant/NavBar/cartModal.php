@@ -44,12 +44,18 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                                     if(isset($item['id_ingredients'])){
                                         $ingredientList = $bdd->getIngredientList($item['id_ingredients']);
                                     }
+                                    if(isset($_SESSION['user']['id_users'])){
+                                        $userId = $_SESSION['user']['id_users'];
+                                    }
+                                    elseif(isset($_SESSION['user']['identifiant_users'])){
+                                        $userId = $_SESSION['user']['identifiant_users'];
+                                    }
 
                                     echo '
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="heading'.$label.'-'.$itemName['id_produits'].'">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#'.$label.'-'.$itemName['id_produits'].'" aria-expended="true" aria-controls="'.$label.'-'.$itemName['id_produits'].'">
-                                                <a class="btn btn-outline-danger me-3" href="./config/deleteCartItem.php?idUser='.$_SESSION['user']['id_users'].'&idCart='.$item['id_cart'].'">
+                                                <a class="btn btn-outline-danger me-3" href="./config/deleteCartItem.php?idUser='.$userId.'&idCart='.$item['id_cart'].'">
                                                     <span class="bi bi-trash"></span>
                                                 </a>
                                                     '.$itemName['nom_produits'].'<span class="text-right ms-5">'.number_format($item['price'], 2, ',', '.').'€</span>

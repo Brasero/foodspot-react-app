@@ -118,7 +118,13 @@ else if(isset(
                 if($villeQuery != false){
                     $dbville = $villeQuery->fetch();
                     $villeId = $dbville['ID'];
-                    $identifiant = time();
+
+                    if(isset($_SESSION['user']['identifiant_users'])){
+                        $identifiant = $_SESSION['user']['identifiant_users'];
+                    }
+                    else{
+                        $identifiant = time();
+                    }
 
                     $queryStr = 'INSERT INTO users (identifiant_users, nom_users, prenom_users, mail_users, adresse_users, id_ville_users, tel_users, mdp_users, isManager_users)
                                 VALUES (:identifiant, :nom, :prenom, :mail, :adresse, :idVille, :num, :mdp, 0)';

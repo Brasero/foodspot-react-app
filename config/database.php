@@ -37,6 +37,13 @@ class DataBase{
         return $respond;
     }
 
+    
+    public function createTemporaryUser() {
+        if(!isset($_SESSION['user'])){
+            $_SESSION['user']['identifiant_users'] = time();
+        }
+    }
+
     public function logIn($mail, $mdp){
         if(isset($mail, $mdp)){
             if(!empty($mail) AND !empty($mdp)){
@@ -66,16 +73,37 @@ class DataBase{
     }
 
     public function getCart($user){
-        $queryStr = 'SELECT * FROM cart WHERE id_users = '.$user['id_users'];
-        $query = $this->connexion->query($queryStr);
-        if($query != false AND !empty($query)){
-            $respond = $query->fetchAll();
+        if(isset($user['id_users'])){   
+            $updateQuery = $this->connexion->query('UPDATE cart SET id_users = '.$user['id_users'].' WHERE id_users = '.$user['identifiant_users']);
+            $queryStr = 'SELECT * FROM cart WHERE id_users = '.$user['id_users'].' OR id_users = '.$user['identifiant_users'];
+            $query = $this->connexion->query($queryStr);
+            
+            if($query != false AND !empty($query)){
+                $respond = $query->fetchAll();
+            }
+            else{
+                $respond = 'Votre panier est vide';
+            }
         }
-        else{
-            $respond = 'Votre panier est vide';
+        elseif(isset($user['identifiant_users'])){
+            $queryStr = 'SELECT * FROM cart WHERE id_users = '.$user['identifiant_users'];
+            $query = $this->connexion->query($queryStr);
+
+            if($query != false AND !empty($query)){
+                $respond = $query->fetchAll();
+            }
+            else{
+                $respond = 'Votre panier est vide';
+            }
         }
+        
+        
 
         return $respond;
+    }
+
+    private function updateCart($identifiant){
+
     }
 
     public function getProductNameById($id) {
