@@ -53,8 +53,11 @@ echo '<form action="./config/addToCart.php" method="post"><ul class="list-group 
     <input type="text" hidden name="cat" value="'.$cat.'" />
 ';
 
-if(isset($_SESSION['user'])){
+if(isset($_SESSION['user'], $_SESSION['user']['id_users'])){
     echo '<input type="text" hidden name="idUser" value="'.$_SESSION['user']['id_users'].'" />';
+}
+elseif(isset($_SESSION['user'], $_SESSION['user']['identifiant_users'])){
+    echo '<input type="text" hidden name="idUser" value="'.$_SESSION['user']['identifiant_users'].'" />';
 }
 
 foreach($returnList as $ingredient) {

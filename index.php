@@ -1,9 +1,5 @@
 <?php
 session_start();
-if(isset($_COOKIE['userName'])){
-
-    $_SESSION['userName'] = $_COOKIE['userName'];
-}
 
 
 include_once('./config/database.php');
@@ -17,18 +13,9 @@ if(isset($_POST['connect_email'], $_POST['connect_password'])){
         $message = $bdd->logIn($_POST['connect_email'], $_POST['connect_password']);
     }
 }
-
-if(isset(
-    $_POST['signIn_nom'], 
-    $_POST['signIn_prenom'], 
-    $_POST['signIn_email'], 
-    $_POST['signIn_adresse'], 
-    $_POST['signIn_ville'], 
-    $_POST['signIn_password']
-    ) AND 
-    $_POST['signIn_password'] == $_POST['signIn_confirm_password']){
-        
-    }
+else{
+    $bdd->createTemporaryUser();
+}
 
 
 ?>

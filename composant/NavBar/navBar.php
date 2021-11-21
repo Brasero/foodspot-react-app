@@ -21,7 +21,7 @@ $categoriesArray = $bdd->getCategoriesName();
             <li class="nav-item dropdown">
                 <button class="nav-link dropdown-toggle btn btn-md btn-outline-light me-3" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="bi-solid bi-person"></span>
-                    <?php if(isset($_SESSION['user'])){echo '<div class="d-inline">'.$_SESSION['user']['nom_users'].' <span class="d-none d-sm-inline">'.$_SESSION['user']['prenom_users'].'</span></div>';}
+                    <?php if(isset($_SESSION['user']['id_users'])){echo '<div class="d-inline">'.$_SESSION['user']['nom_users'].' <span class="d-none d-sm-inline">'.$_SESSION['user']['prenom_users'].'</span></div>';}
                                 else{ echo 'Connexion /<br/> Inscription';} ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="accountDropdown">
@@ -35,7 +35,7 @@ $categoriesArray = $bdd->getCategoriesName();
                     </a>
                     <a href="#" class="dropdown-item" >
                         <?php 
-                            if(isset($_SESSION['user'])){
+                            if(isset($_SESSION['user']['id_users'])){
                                 echo '
                                 <a href="logOut.php" class="dropdown-item" >
                                     <span class="bi bi-box-arrow-left"></span>

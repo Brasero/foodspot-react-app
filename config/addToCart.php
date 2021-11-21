@@ -109,8 +109,14 @@ if(isset(
         $insertQuery->bindParam(':idUsers', $cartItem['id_users'], PDO::PARAM_STR);
         $insertQuery->bindParam(':price', $cartItem['price'], PDO::PARAM_STR);
 
-        $insertQuery->execute();
+        if($insertQuery->execute()){
+            header('Location: ../index.php?cat='.$cat.'');
+        }
+        else{
+            var_dump($insertQuery->errorInfo());
+            var_dump($cartItem);
+        }
 
-        header('Location: ../index.php?cat='.$cat.'');
+        
     }
 ?>
