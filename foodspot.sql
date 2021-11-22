@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 17 nov. 2021 à 08:36
+-- Généré le :  lun. 22 nov. 2021 à 17:50
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -37,9 +37,8 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `id_users` int(11) NOT NULL,
   `price` float NOT NULL,
   PRIMARY KEY (`id_cart`),
-  KEY `id_produits` (`id_produits`) USING BTREE,
-  KEY `id_users` (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+  KEY `id_produits` (`id_produits`)
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -54,17 +53,19 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `nom_categories` text NOT NULL,
   `img_categories` text NOT NULL,
   PRIMARY KEY (`id_categories`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `categories`
 --
 
 INSERT INTO `categories` (`id_categories`, `identifiant_categories`, `nom_categories`, `img_categories`) VALUES
-(1, 1620047757, 'Burgers', 'burger.jpg'),
-(2, 1620114531, 'Salades', 'salade.jpg'),
-(3, 1620114816, 'Tex-Mex', 'enCas.jpg'),
-(11, 1636804638, 'Boissons', 'boisson.jpg');
+(23, 1637597769, 'Sandwichs', 'pexels-rajdeepcraft-6416558.jpg'),
+(24, 1637597959, 'Salades', 'pexels-alleksana-6107787.jpg'),
+(25, 1637598065, 'Dessert', 'pexels-eric-montanah-1414234.jpg'),
+(26, 1637598442, 'Tacos', 'pexels-los-muertos-crew-8230030.jpg'),
+(27, 1637598574, 'Burgers', 'burger.jpg'),
+(28, 1637598620, 'Tex-Mex', 'enCas.jpg');
 
 -- --------------------------------------------------------
 
@@ -81,22 +82,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `id_users` int(11) NOT NULL,
   `prix_commande` float NOT NULL,
   PRIMARY KEY (`id_commande`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `commande`
---
-
-INSERT INTO `commande` (`id_commande`, `identifiant_commande`, `id_produits`, `id_ingredients`, `id_users`, `prix_commande`) VALUES
-(40, 1636996885, 3, '2;5', 16, 5),
-(41, 1636996885, 30, NULL, 16, 1.5),
-(42, 1636996996, 1, '2;3;6;5', 16, 5.5),
-(43, 1636996996, 12, '2;3;4;5;6', 16, 4),
-(44, 1636996996, 13, '2;5', 16, 8.5),
-(45, 1636996996, 30, NULL, 16, 1.5),
-(46, 1636996996, 29, NULL, 16, 1.5),
-(47, 1636996996, 29, NULL, 16, 1.5),
-(48, 1636998130, 2, '2;3;4;5;6', 16, 4.9);
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -112,18 +98,84 @@ CREATE TABLE IF NOT EXISTS `ingredients` (
   `prix_ingredients` float NOT NULL,
   `dispo_ingredients` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_ingredients`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ingredients`
 --
 
 INSERT INTO `ingredients` (`id_ingredients`, `identifiant_ingredients`, `nom_ingredients`, `prix_ingredients`, `dispo_ingredients`) VALUES
-(2, 1620047570, 'Tomate', 1, 1),
-(3, 1620047628, 'Oignon', 1, 1),
-(4, 1621262079, 'Steak Haché ', 1, 1),
-(5, 1621262079, 'Steak de Légumes', 1.5, 1),
-(6, 1636558591, 'Salades', 0.5, 1);
+(7, 1637594471, 'Salade', 0.3, 1),
+(8, 1637594485, 'Olive', 0.3, 1),
+(9, 1637594499, 'Cornichon', 0.3, 1),
+(10, 1637594511, 'Poivron', 0.3, 1),
+(11, 1637594527, 'Tomate', 0.3, 1),
+(12, 1637594541, 'Champignons', 0.3, 1),
+(13, 1637594558, 'Oignon Rouge', 0.3, 1),
+(14, 1637594574, 'Oignon Frits', 0.3, 1),
+(15, 1637594591, 'Mozzarella', 0.6, 1),
+(16, 1637594600, 'Emmental', 0.6, 1),
+(17, 1637594612, 'Raclette', 0.6, 1),
+(18, 1637594622, 'Chèvre', 0.6, 1),
+(19, 1637594645, 'Camembert', 0.6, 1),
+(20, 1637594669, 'Boursin', 0.6, 1),
+(21, 1637594685, 'Vache qui rit', 0.6, 1),
+(22, 1637594693, 'Cheddar', 0.6, 1),
+(23, 1637594715, 'Lardons', 0.9, 1),
+(24, 1637594723, 'Bacon', 0.9, 1),
+(25, 1637594738, 'Chorizo', 0.9, 1),
+(26, 1637594793, 'Oeuf au plat', 0.35, 1),
+(27, 1637594803, 'Tomate cerise', 0.35, 1),
+(28, 1637594816, 'Concombre', 0.35, 1),
+(29, 1637594847, 'Mais', 0.35, 1),
+(30, 1637594853, 'Feta', 0.6, 1),
+(31, 1637594865, 'Noix', 0.35, 1),
+(32, 1637594874, 'Amande', 0.35, 1),
+(33, 1637594890, 'Raisin Sec', 0.35, 1),
+(34, 1637594904, 'Croûton', 0.35, 1),
+(35, 1637594954, 'Nuggets', 1.5, 1),
+(36, 1637594963, 'Fish', 1.5, 1),
+(37, 1637594974, 'Merguez', 1.5, 1),
+(38, 1637594983, 'Kebab', 1.5, 1),
+(39, 1637594999, 'Escalope de Poulet', 1.5, 1),
+(40, 1637595010, 'Viande hachée', 1.5, 1),
+(41, 1637595016, 'Tenders', 1.5, 1),
+(42, 1637595024, 'Cordon Bleu', 1.5, 1),
+(43, 1637595032, 'Crevettes', 1.5, 1),
+(45, 1637595104, 'Rösti', 0.9, 1),
+(46, 1637595122, 'Steak Haché', 1.5, 1),
+(47, 1637595153, 'Double Steak hachée', 3, 1),
+(48, 1637595169, 'Double cheddar', 1.2, 1),
+(49, 1637598986, 'Poulet', 1.5, 1),
+(50, 1637599337, 'Frites', 0.9, 1),
+(51, 1637599759, 'Lardon de dinde', 0.9, 1),
+(52, 1637599819, 'Oeuf', 0.35, 1),
+(53, 1637600090, 'Ciboulette', 0.3, 1),
+(54, 1637600101, 'Thon', 0.9, 1),
+(55, 1637600110, 'Surimi', 0.9, 1),
+(56, 1637600122, 'Basilic', 0.3, 1),
+(57, 1637600138, 'Olive Noire', 0.35, 1),
+(58, 1637600285, 'Saumon', 1, 1),
+(59, 1637600736, 'Oignon', 0.35, 1),
+(60, 1637601184, 'Sauce Andalouze', 0, 1),
+(61, 1637601194, 'Sauce Brazil', 0, 1),
+(62, 1637601205, 'Sauce Magic oignon', 0, 1),
+(63, 1637601221, 'Sauce chili thaï', 0, 1),
+(64, 1637601233, 'Sauce marocaine', 0, 1),
+(65, 1637601244, 'Sauce Algérienne', 0, 1),
+(66, 1637601254, 'Sauce harissa', 0, 1),
+(67, 1637601266, 'Sauce moutarde', 0, 1),
+(68, 1637601279, 'Sauce samouraï', 0, 1),
+(69, 1637601287, 'Sauce barbecue', 0, 1),
+(70, 1637601299, 'Sauce curry', 0, 1),
+(71, 1637601310, 'Sauce fish', 0, 1),
+(72, 1637601319, 'Sauce biggy', 0, 1),
+(73, 1637601327, 'Sauce blanche', 0, 1),
+(74, 1637601336, 'Sauce mayonnaise', 0, 1),
+(75, 1637601350, 'Sauce tartare', 0, 1),
+(76, 1637601361, 'Sauce poivre', 0, 1),
+(77, 1637601368, 'Sauce ketchup', 0, 1),
+(78, 1637601434, 'Sauce fromagère', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -143,23 +195,54 @@ CREATE TABLE IF NOT EXISTS `produits` (
   `img_produits` text DEFAULT 'logo.png',
   PRIMARY KEY (`id_produits`),
   KEY `id_categorie` (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `produits`
 --
 
 INSERT INTO `produits` (`id_produits`, `identifiant_produits`, `nom_produits`, `prix_produits`, `id_categorie`, `id_ingredients`, `dispo_produits`, `img_produits`) VALUES
-(1, 1620047901, 'Le Vegan', 4, 1, '2;3;6', 1, 'logo.png'),
-(2, 1620047946, 'Le Foréstier', 4.9, 1, '2;3;4;5;6', 1, 'burger.jpg'),
-(3, 1621262617, 'Vegetarienne', 3.5, 2, '2', 1, 'salade.jpg'),
-(12, 1624521850, 'Cheese burger', 4, 1, '2;3;4;5;6', 1, 'logo.png'),
-(13, 1626856562, 'Tacos poulet', 7, 3, '2', 1, 'logo.png'),
-(14, 1634488685, 'L\'américain', 8.8, 1, '2;3;4;5;6', 1, 'logo.png'),
-(15, 1634507330, 'Le Raclette', 9.5, 1, '2', 1, 'logo.png'),
-(28, 1636554831, 'Double Cheese', 8.45, 1, '2;3', 1, 'tacos1.jpg'),
-(29, 1636814917, 'Coca-cola 33cl', 1.5, 11, NULL, 1, 'cocaCola33cl.jpg'),
-(30, 1636892285, 'Fanta 33cl', 1.5, 11, NULL, 1, 'fanta33cl.jpg');
+(31, 1637599042, 'Panini Poulet', 7.8, 23, '49', 1, 'pexels-rajdeepcraft-6416558.jpg'),
+(32, 1637599271, 'Panini Steack haché', 7.8, 23, '46', 1, 'pexels-rajdeepcraft-6416558.jpg'),
+(33, 1637599420, 'Américao', 7, 23, '46;50', 1, 'pexels-rajdeepcraft-6416558.jpg'),
+(34, 1637599457, 'Luffy, trois viande au choix', 10, 23, '7;11;16', 1, 'pexels-rajdeepcraft-6416558.jpg'),
+(35, 1637599864, 'Francky', 8.5, 23, '14;51', 1, 'pexels-rajdeepcraft-6416558.jpg'),
+(36, 1637600220, 'Jimbé', 6.5, 24, '53;7;55;54;27', 1, 'pexels-alleksana-6107787.jpg'),
+(37, 1637600347, 'Sanji', 6.5, 24, '53;29;7;58;27', 1, 'pexels-alleksana-6107787.jpg'),
+(38, 1637600409, 'Nami', 6.5, 24, '27;28;30;34;49;56', 1, 'pexels-alleksana-6107787.jpg'),
+(39, 1637600498, 'Nico Robin', 6.5, 24, '56;12;28;30;13;57;10;7', 1, 'pexels-alleksana-6107787.jpg'),
+(40, 1637600585, 'Tarte Chocolat Daim', 2.5, 25, NULL, 1, 'pexels-eric-montanah-1414234.jpg'),
+(41, 1637600621, 'Tarte chocolat Toblerone', 2.5, 25, NULL, 1, 'pexels-eric-montanah-1414234.jpg'),
+(42, 1637600642, 'Tiramisu', 2.5, 25, NULL, 1, 'pexels-eric-montanah-1414234.jpg'),
+(43, 1637600664, 'Brownie', 2.5, 25, NULL, 1, 'pexels-eric-montanah-1414234.jpg'),
+(44, 1637601526, 'Végétarien', 7, 26, '12;15;52;59;10;78;75', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(45, 1637601611, 'L\'algérien', 7, 26, '22;50;59;49;65;78', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(46, 1637601732, 'Nancéien', 7, 26, '12;18;42;9;45;73;78', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(47, 1637601856, 'L\'orientale', 7, 26, '50;59;10;17;78;64;40', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(48, 1637601936, 'L\'américain', 7, 26, '24;16;50;37;14;69;78', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(49, 1637602012, 'Le Spot', 7, 26, '22;50;38;59;8;72;78', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(50, 1637602060, 'Perso 1 Viande', 5.5, 26, '50', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(51, 1637602088, 'Perso 2 Viandes', 7, 26, '50', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(52, 1637602123, 'Perso 3 Viandes', 11, 26, '50', 1, 'pexels-los-muertos-crew-8230030.jpg'),
+(53, 1637602211, 'Tenders', 4.9, 27, '22;7;77;41;11', 1, 'burger.jpg'),
+(54, 1637602286, 'Végétarien', 4.9, 27, '22;9;59;45;7;11', 1, 'burger.jpg'),
+(55, 1637602374, 'Fish Burger', 4.9, 27, '22;36;59;45;7;11', 1, 'burger.jpg'),
+(56, 1637602436, 'Cheese', 4.9, 27, '22;59;7;46;11', 1, 'burger.jpg'),
+(57, 1637602534, 'Le Spot', 5.9, 27, '24;22;9;59;7;46;11', 1, 'burger.jpg'),
+(58, 1637602619, 'Raclette', 5.9, 27, '23;59;17;7;46', 1, 'burger.jpg'),
+(59, 1637602690, 'Monster', 5.9, 27, '9;48;47;7;11', 1, 'burger.jpg'),
+(60, 1637602762, 'Chicken', 5.9, 27, '22;49;45;7;11', 1, 'burger.jpg'),
+(61, 1637602825, 'Bouchées camembert x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(62, 1637602853, 'Wings x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(63, 1637602895, 'Cheddar jalapenos x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(64, 1637602918, 'Mozza-stick x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(65, 1637602946, 'Red hot jalapenos x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(66, 1637602972, 'Nuggets x3', 2, 28, NULL, 1, 'enCas.jpg'),
+(67, 1637602995, 'Oignon rings x10', 2.5, 28, NULL, 1, 'enCas.jpg'),
+(68, 1637603021, 'Tenders x6', 8, 28, NULL, 1, 'enCas.jpg'),
+(69, 1637603044, 'Tenders x3', 4.5, 28, NULL, 1, 'enCas.jpg'),
+(70, 1637603072, 'Grande frite', 3.5, 28, NULL, 1, 'enCas.jpg'),
+(71, 1637603094, 'Frites', 2.5, 28, NULL, 1, 'enCas.jpg');
 
 -- --------------------------------------------------------
 
@@ -174,16 +257,7 @@ CREATE TABLE IF NOT EXISTS `statut_commande` (
   `statut_commande_value` int(11) NOT NULL,
   PRIMARY KEY (`id_statut_commande`),
   KEY `identifiant_commande` (`identifiant_commande`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `statut_commande`
---
-
-INSERT INTO `statut_commande` (`id_statut_commande`, `identifiant_commande`, `statut_commande_value`) VALUES
-(45, 1636996885, 2),
-(46, 1636996996, 2),
-(47, 1636998130, 0);
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -205,15 +279,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `isManager_users` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_users`),
   KEY `id_ville_users` (`id_ville_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`id_users`, `identifiant_users`, `mail_users`, `nom_users`, `prenom_users`, `adresse_users`, `id_ville_users`, `tel_users`, `mdp_users`, `isManager_users`) VALUES
-(15, 1636121248, 'letreche@gmail.com', 'Letreche', 'Walid', '72 route de verdun', 22097, 777725618, '$2y$10$P0OwMIpFF69WD5DA8n/zEuG6yrFVf/Rc41eRQod8JHxpDTngZ4ZwK', 0),
-(16, 1636995126, 'brandonricci4@gmail.com', 'Ricci', 'Brandon', 'batiment D rue des coquelicots', 22354, 777486426, '$2y$10$vFdQNrxEdAWbvpusVu1IdeAlugQFimmn9UhuBeHyb5oyy5UObIiJK', 0);
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -36896,13 +36962,6 @@ INSERT INTO `ville` (`ID`, `nom`, `codePostal`, `ID_departement`) VALUES
 --
 -- Contraintes pour les tables déchargées
 --
-
---
--- Contraintes pour la table `cart`
---
-ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`id_produits`) REFERENCES `produits` (`id_produits`),
-  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`);
 
 --
 -- Contraintes pour la table `produits`

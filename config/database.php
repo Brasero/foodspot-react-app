@@ -102,9 +102,7 @@ class DataBase{
         return $respond;
     }
 
-    private function updateCart($identifiant){
-
-    }
+    
 
     public function getProductNameById($id) {
         $queryStr = 'SELECT nom_produits FROM produits WHERE id_produits = '.$id.'';
@@ -240,7 +238,7 @@ class DataBase{
     }
 
     public function getIngredients(){
-        $queryStr = 'SELECT * FROM ingredients';
+        $queryStr = 'SELECT * FROM ingredients ORDER BY nom_ingredients';
         $query = $this->connexion->query($queryStr);
         $respond = $query->fetchAll();
         return $respond;
