@@ -56,7 +56,7 @@ if(isset($_FILES) && !empty($_FILES['imgProduit']['name'])){
     $actualImgName = $query->fetch();
     $actualImgPath = '../assets/img/'.$actualImgName['img_produits'];
 
-    unlink($actualImgPath);
+    //unlink($actualImgPath);
 
     move_uploaded_file($imgObj, '../assets/img/'.$imgName);
     

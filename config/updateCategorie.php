@@ -16,7 +16,6 @@ if(isset($data['nomCategorie'])){
 
 if(isset($_FILES['imgCategorie']['name'], $_FILES['imgCategorie']['tmp_name'])){
 
-    var_dump($_FILES);
     $img = $_FILES;
     $imgName = $img['imgCategorie']['name'];
     $imgObj = $img['imgCategorie']['tmp_name'];
@@ -24,7 +23,7 @@ if(isset($_FILES['imgCategorie']['name'], $_FILES['imgCategorie']['tmp_name'])){
     $actualImgName = $query->fetch();
     $actualImgPath = '../assets/img/'.$actualImgName['img_categories'];
 
-    unlink($actualImgPath);
+    //unlink($actualImgPath);
 
     move_uploaded_file($imgObj, '../assets/img/'.$imgName);
 
