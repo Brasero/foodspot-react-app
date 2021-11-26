@@ -36,12 +36,12 @@ $carouselCount = 0;
         </div>
     </div>
 
-    <div class="row card-deck mx-auto justify-content-center">
+    <div class="row card-deck g-4 mx-auto card-group justify-content-center">
         <?php
             foreach($catInfo as $cat){
                 echo '
                 <div class="card text-center col-md-3 m-auto mx-md-1 mt-2" style="min-width: 311px; padding: 0;">
-                    <img class="card-img-bottom" src="./assets/img/'.$cat['img_categories'].'" alt="'.$cat['nom_categories'].'" />
+                    <img class="card-img-bottom" src="./assets/img/'.$cat['img_categories'].'" style="max-height: 300px;" alt="'.$cat['nom_categories'].'" />
                     <div class="card-body">
                         <div class="card-title text-left mb-4">
                             Nos '.$cat['nom_categories'].'

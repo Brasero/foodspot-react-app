@@ -2,7 +2,7 @@
 $categoriesArray = $bdd->getCategoriesName();
 ?>
 
-<nav class="navbar navbar-expand-md navbar-light bg-white w-100 border-bottom sticky-top" style="position: sticky;">
+<nav class="navbar navbar-expand-md navbar-light bg-white w-100 sticky-top" style="position: sticky; max-width: 1024px;">
     
     <!--TOOGLE MENU BUTTON -->
     <button class="navbar-toggler ms-3" data-toggle="collapse" data-target="#navbarMenu">

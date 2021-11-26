@@ -1,16 +1,26 @@
 <?php 
-if (isset($_POST['g-recaptcha-response']) && !empty ($_POST['g-recaptcha-response'])) {
-    $secret = '6Lf9ghAdAAAAAJmWH6u-vrtwWUrM4Dg-6sMrhm0g'; 
-    $verifyResponse = file_get_contents ('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST ['g-recaptcha-response']); 
-    $responseData = json_decode($verifyResponse); 
-    if ($responseData->success) {
+if (isset($_POST['signIn_nom'], 
+$_POST['signIn_prenom'], 
+$_POST['signIn_adresse'], 
+$_POST['signIn_ville'], 
+$_POST['signIn_email'], 
+$_POST['signIn_password'], 
+$_POST['signIn_confirm_password']) && 
+!empty($_POST['signIn_nom']) && 
+!empty($_POST['signIn_prenom']) && 
+!empty($_POST['signIn_adresse']) && 
+!empty($_POST['signIn_ville']) && 
+!empty($_POST['signIn_email']) && 
+!empty($_POST['signIn_password']) && 
+!empty($_POST['signIn_confirm_password'])) {
+    if ($_POST['signIn_password'] === $_POST['signIn_confirm_password']) {
         $succMsg = 'Inscription reussie.</br> Vous pouvez maintenant vous connetcer.';
     } else {
-        $errMsg = 'La vérification du robot a échoué, veuillez réessayer.'; 
+        $errMsg = 'Vot mot de passe ne correspondent pas.'; 
     }
 }
 elseif(isset($_POST['signIn_nom'])){
-    $errMsg = 'Veuillez valider le captcha pour vous inscrire.';
+    $errMsg = 'Veuillez remplir tous les champs pour vous inscrire.';
 }
 ?>
 
@@ -60,8 +70,6 @@ if(!isset($succMsg)){
         <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
         <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
     </div>
-    <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
-    </div>
     <button type="submit" class="btn btn-outline-dark">S'inscrire</button>
 </form>
 <?php
@@ -109,9 +117,8 @@ else if(isset(
                 $ville = $_POST['signIn_ville'];
                 $email = $_POST['signIn_email'];
                 $num = $_POST['signIn_num'];
-                $pass = $_POST['signIn_password'];
 
-                $hashPass = password_hash($pass, PASSWORD_DEFAULT);
+                $hashPass = password_hash($_POST['signIn_password'], PASSWORD_DEFAULT);
 
                 $villeQuery = $bdd->connexion->query('SELECT * FROM ville WHERE nom LIKE "'.$ville.'%"');
                 
@@ -144,7 +151,6 @@ else if(isset(
                     }
                     else{
                         echo '<div class="text-danger text-center h4">Une erreur est survenue.</br>Vérifiez votre connexion et recommencez.</div>';
-                        var_dump($insertQuery->errorInfo());
                     }
                 }
                 else{
@@ -196,8 +202,6 @@ else if(isset(
                     <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
                     <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
                 </div>
-                <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
-                </div>
                 <button type="submit" class="btn btn-outline-dark">S\'inscrire</button>
             </form>';
         }
@@ -246,8 +250,6 @@ else if(!isset($succMsg)){
             <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
             <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
         </div>
-        <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
-        </div>
         <button type="submit" class="btn btn-outline-dark">S\'inscrire</button>
 </form>';
 }
@@ -295,8 +297,6 @@ else{
         <div class="form-floating mb-3">
             <input class="form-control" type="password" id="inputConfirmPassword" minlength="4" maxlength="16" name="signIn_confirm_password" placeholder="Confrimez votre mot de passe" />
             <label for="inputConfirmPassword">Confirmez votre mot de passe</label>
-        </div>
-        <div class="g-recaptcha w-100 mb-2 form-floating" data-sitekey="6Lf9ghAdAAAAAGQAggdV_lkzKjtDfnckNvR_X0oN">
         </div>
         <button type="submit" class="btn btn-outline-dark">S\'inscrire</button>
 </form>';

@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `foodspot`
+-- Base de données :  `foodspv123`
 --
 
 -- --------------------------------------------------------
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 -- Structure de la table `cart`
 --
 
-DROP TABLE IF EXISTS `cart`;
 CREATE TABLE IF NOT EXISTS `cart` (
   `id_cart` int(11) NOT NULL AUTO_INCREMENT,
   `identifiant_panier` int(255) NOT NULL,
@@ -192,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `produits` (
   `id_categorie` int(11) NOT NULL,
   `id_ingredients` text DEFAULT NULL,
   `dispo_produits` tinyint(1) NOT NULL,
-  `img_produits` text DEFAULT 'logo.png',
+  `img_produits` text,
   PRIMARY KEY (`id_produits`),
   KEY `id_categorie` (`id_categorie`)
 ) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;

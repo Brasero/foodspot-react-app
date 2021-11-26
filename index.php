@@ -46,9 +46,13 @@ else{
         <header>
 
         </header>
+        <div class="bg-white border-bottom d-flex justify-content-center">
+            <?php
+                include_once('./composant/NavBar/navBar.php');
+            ?>
+        </div>
         <div class="w-100 mx-auto" style="max-width: 1024px; align-items: center; background: transparent;">
-        <?php 
-        include_once('./composant/NavBar/navBar.php'); 
+        <?php  
         include_once('./composant/NavBar/cartModal.php');
 
         if(isset($_GET['cat'])){
