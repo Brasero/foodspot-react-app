@@ -16,7 +16,7 @@ $categoriesArray = $bdd->getCategoriesName();
     </a>
 
     <!-- EXPAND MENU UL -->
-    <div class="collapse navbar-collapse ms-3" style="flex-direction: column;" id="navbarMenu">
+    <div class="collapse navbar-collapse ms-3" style="flex-direction: column; align-items: end;" id="navbarMenu">
         <ul class="navbar-nav mt-3" style='flex-direction: row;'>
             <li class="nav-item dropdown">
                 <button class="nav-link dropdown-toggle btn btn-md btn-outline-light me-3" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
