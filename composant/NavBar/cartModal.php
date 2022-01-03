@@ -128,7 +128,7 @@ $totalCart = 0.0;
         </div>
     </div>
 </div>
-
+<!-- modifier la class du bouton non cliqué, valeur déjà récuperer plus qu'a l'enregistrer -->
 <script type="text/javascript">
     function livClick(event){
         var button = event.target;
