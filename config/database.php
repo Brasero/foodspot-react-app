@@ -50,12 +50,25 @@ class DataBase{
                 $initQuery = $this->connexion->prepare('SELECT * FROM users WHERE mail_users = :mail');
                 $initQuery->bindParam(':mail', $mail, PDO::PARAM_STR);
                 $initQuery->execute();
+                //Vérification de l'existance d'un panier dans $cartExist
+
+                if(isset($_SESSION['user']) AND !empty($_SESSION['user']['identifiant_users']))
+                    {
+                        $cart = $this->getCart($_SESSION['user']);
+                        $cartExist = $cart === 'Votre panier est vide' ? false : true;
+                        $temporaryId = $_SESSION['user']['identifiant_users'];
+                    }
 
                 if($initQuery != false){
                     $bddUserInfo = $initQuery->fetch();
                     if(password_verify($mdp, $bddUserInfo['mdp_users'])){
                         $_SESSION['user'] = $bddUserInfo;
                         $return = '<span class="text-success text-center">Connexion reussie</span>';
+
+                        if($cartExist){
+                            $this->connexion->query('UPDATE cart SET id_users = '.$bddUserInfo['id_users'].' WHERE id_users = '.$temporaryId.'');
+                        }
+
                         return $return;
                     }
                     else{
