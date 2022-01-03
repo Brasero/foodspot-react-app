@@ -38,7 +38,32 @@ else{
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src='https://www.google.com/recaptcha/api.js' différé asynchrone></script>
-        
+ <style>
+.btn-outline-dark {
+	background: black;
+	color: white;
+	border-radius: 0;
+}
+.btn-outline-dark:hover {
+	background: white;
+	color: black;
+}
+.btn-outline-light {
+	background: black;
+	color: white !important;
+	border: black;
+	border-radius: 0;
+}
+.btn-outline-light span  {
+	color: white !important;
+}
+.btn-outline-light:hover {
+	color: black !important;
+}
+.btn-outline-light:hover span  {
+	color: black !important;
+}
+</style> 
     </head>
 
     <body class="bg-light">
@@ -46,7 +71,7 @@ else{
         <header>
 
         </header>
-        <div class="bg-white border-bottom d-flex justify-content-center">
+        <div class="bgdd-white border-bottom d-flex justify-content-center" style="background: rgb(223,194,150);"> <!-- 191,161,115 -->
             <?php
                 include_once('./composant/NavBar/navBar.php');
             ?>
@@ -76,7 +101,7 @@ else{
         
         </div>
 
-        <footer>
+        <footer style="background: rgb(223,194,150);">
             <?php
                 include('./composant/Footer/footer.php');
             ?>

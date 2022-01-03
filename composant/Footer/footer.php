@@ -57,7 +57,7 @@ $horaire = '11:00 - 14:30 <br /> 18:00 - 22:00';
             </div>
         </div>
     </div>
-    <div class="bg-light d-grid border-top pt-3 p-1 mt-2">
+    <div class="bg-lightxx d-grid border-top pt-3 p-1 mt-2" style="background: rgb(223,194,150);">
         <div class="mx-auto text-center d-flex" style="align-items: center;">
             Site créé par<a href="http://www.linkedin.com/in/brandon-ricci-76ab78144" class="nav-link text-secondary mx-0">Ricci Brandon</a> - 2021 - <a href="https://fr.wikipedia.org/wiki/Plagiat" class="nav-link text-secondary mx-0">Tous droits déposés.</a>
         </div>
