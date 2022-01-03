@@ -1,13 +1,5 @@
 <?php
 $totalCart = 0.0;
-
-if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
-    $cart = $bdd->getCart($_SESSION['user']);
-    if(isset($cart) AND !empty($cart)){
-    }
-}
-
-
 ?>
 
 
@@ -95,9 +87,6 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
                             }
                            echo '</div>';
                         }
-                        else{
-                            echo '<span class="text-danger"> Veuillez vous connecter.</span>';
-                        }
 
                         if(isset($totalCart)){
                             $totalCart = number_format($totalCart, 2, ',', '.');
@@ -108,8 +97,18 @@ if(isset($_SESSION['user']) AND !empty($_SESSION['user'])){
             <div class="modal-footer">
                 <div class="d-inline me-auto color-secondary h3"><span class="text-muted h4">Total :</span> <?= $totalCart; ?>€</div>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-                <?php  if($totalCart != 0.0){  ?>
+                <?php  if($totalCart != 0.0 AND isset($_SESSION['user']['id_users'])){  ?>
                 <a type="button" href="composant/validateCart/validateCart.php" class="btn btn-success">Commander</a>
+                <?php }else if(isset($_SESSION['user']['id_users']) AND $totalCart == 0.0){ ?>
+                    <button type="button" disabled class="btn btn-outline-dark">
+                        <span class="bi bi-dash-circle"></span>
+                        Commander
+                    </button>
+                <?php } else {?>
+                    <a type="button" href="index.php?page=1" class="btn btn-outline-dark">
+                        <span class="bi bi-box-arrow-in-right"></span>
+                        Se connecter
+                    </a>
                 <?php } ?>
             </div>
         </div>
