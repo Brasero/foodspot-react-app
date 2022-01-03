@@ -11,6 +11,9 @@ $totalCart = 0.0;
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="close">
                 </button>
             </div>
+            <div class="modal-subtitle">
+                <span class="bi bi-car"></span>
+            </div>
             <div class="modal-body">                
                     <?php
                         $itemCount = 0;
@@ -77,6 +80,17 @@ $totalCart = 0.0;
 
                                     echo '</ul>
                                     </div>
+                                </div>
+                                <div class="">
+                                    Commander en :
+                                    <div id="pickMode">
+                                        <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="1">
+                                            Click & Collect
+                                        </button>
+                                        <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="2">
+                                            Livraison
+                                        </button>
+                                    </div>
                                 </div> 
                             ';
                                                 
@@ -114,3 +128,19 @@ $totalCart = 0.0;
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function livClick(event){
+        var button = event.target;
+        var classList = button.classList.value;
+        var buttonValue = button.value;
+        console.log(buttonValue)
+        if(classList.match('activeLiv')){
+            button.classList.remove('activeLiv');
+        }
+        else{
+            button.classList.add('activeLiv');
+        }
+    }
+
+</script>
