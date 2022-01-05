@@ -59,10 +59,19 @@ class DataBase{
                         $temporaryId = $_SESSION['user']['identifiant_users'];
                     }
 
+                if(isset($_SESSION['user']['mode']) AND $_SESSION['user']['mode'] != null){
+                    $modeVar = $_SESSION['user']['mode'];   
+                }
+
                 if($initQuery != false){
                     $bddUserInfo = $initQuery->fetch();
                     if(password_verify($mdp, $bddUserInfo['mdp_users'])){
                         $_SESSION['user'] = $bddUserInfo;
+
+                        if(isset($modeVar)){
+                            $_SESSION['user']['mode'] = $modeVar;
+                        }
+
                         $return = '<span class="text-success text-center">Connexion reussie</span>';
 
                         if($cartExist){

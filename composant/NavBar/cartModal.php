@@ -1,5 +1,11 @@
 <?php
 $totalCart = 0.0;
+if(isset($_SESSION['user']['mode'])){
+    $mode = $_SESSION['user']['mode'];
+}
+else{
+    $mode = null;
+}
 ?>
 
 
@@ -77,34 +83,52 @@ $totalCart = 0.0;
                                             }
                                         }
                                     }
+                        echo '</ul>
+                            </div>
+                        </div>';
+                        }
 
-                                    echo '</ul>
-                                    </div>
+                        echo '
+                            <div class="">
+                                Commander en :
+                                <div id="pickMode">';
+                            switch($mode){
+                                case '1': echo '<button type="button" class="btn btn-outline-dark liv activeLiv" onClick="livClick(event)" value="1">
+                                                    Click & Collect
+                                                </button>
+                                                <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="2">
+                                                    Livraison
+                                                </button>';
+                                                break;
+                                case '2': echo '<button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="1">
+                                                    Click & Collect
+                                                </button>
+                                                <button type="button" class="btn btn-outline-dark liv activeLiv" onClick="livClick(event)" value="2">
+                                                    Livraison
+                                                </button>';
+                                                break;
+                                case null: echo '<button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="1">
+                                                    Click & Collect
+                                                </button>
+                                                <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="2">
+                                                    Livraison
+                                                </button>';
+                                                break;
+                            }
+                                    
+                        echo '
                                 </div>
-                                <div class="">
-                                    Commander en :
-                                    <div id="pickMode">
-                                        <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="1">
-                                            Click & Collect
-                                        </button>
-                                        <button type="button" class="btn btn-outline-dark liv" onClick="livClick(event)" value="2">
-                                            Livraison
-                                        </button>
-                                    </div>
-                                </div> 
-                            ';
-                                                
-                                }
-                            }
-                            else{
-                                echo '<span class="text-muted">Votre panier est vide, commandez maintenant</span>';
-                            }
-                           echo '</div>';
+                            </div> 
+                            ';  
                         }
-
-                        if(isset($totalCart)){
-                            $totalCart = number_format($totalCart, 2, ',', '.');
+                        else{
+                            echo '<span class="text-muted">Votre panier est vide, commandez maintenant</span>';
                         }
+                        echo '</div>';
+                    }
+                    if(isset($totalCart)){
+                        $totalCart = number_format($totalCart, 2, ',', '.');
+                    }
                     ?>
                 
             </div>
@@ -128,19 +152,37 @@ $totalCart = 0.0;
         </div>
     </div>
 </div>
-<!-- modifier la class du bouton non cliqué, valeur déjà récuperer plus qu'a l'enregistrer -->
+<!-- modifier la class du bouton non cliqué -->
 <script type="text/javascript">
     function livClick(event){
         var button = event.target;
         var classList = button.classList.value;
         var buttonValue = button.value;
         console.log(buttonValue)
+
+        var request = new XMLHttpRequest();
+        var requestUrl = './config/setLivMode.php?mode='+buttonValue;
+
         if(classList.match('activeLiv')){
             button.classList.remove('activeLiv');
+            var buttons = document.querySelectorAll('.activeLiv');
+            for (let index = 0; index < buttons.length; index++){
+                if(buttons[index] != button && !buttons[index].classList.value.match('activeLiv')){
+                    buttons[index].classList.add('activeLiv');
+                }
+            }
         }
         else{
             button.classList.add('activeLiv');
+            var buttons = document.querySelectorAll('.activeLiv');
+            for (let index = 0; index < buttons.length; index++){
+                if(buttons[index] != button && buttons[index].classList.value.match('activeLiv')){
+                    buttons[index].classList.remove('activeLiv');
+                }
+            }
         }
+        request.open('GET', requestUrl);
+        request.send();
     }
 
 </script>
