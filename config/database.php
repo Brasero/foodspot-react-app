@@ -2,11 +2,11 @@
 
 class DataBase{
 
-    private $host = "localhost";//foodspv123.mysql.db
-    private $dbName = "foodspot";//foodspv123
+    private $host = "foodspv123.mysql.db";
+    private $dbName = "foodspv123";
     private $char = "utf8";
-    private $user = "root";//foodspv123
-    private $password = "";//Foodspv123
+    private $user = "foodspv123";
+    private $password = "Foodspv123";
     public $connexion;
 
     public function getConnexion(){
