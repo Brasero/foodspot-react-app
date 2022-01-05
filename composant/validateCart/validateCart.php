@@ -8,6 +8,10 @@ $bdd->getConnexion();
 
 $cart = $bdd->getCart($_SESSION['user']);
 $identifiantCommande = time();
+$mode = $_SESSION['user']['mode'];
+
+//insert payment here -> 
+
 
 foreach($cart as $item){
     if(isset($item['id_ingredients'])){
@@ -40,7 +44,7 @@ foreach($cart as $item){
     }
 }
 if($registerStatut){
-    $statutCommandeQuery = $bdd->connexion->query('INSERT INTO statut_commande (identifiant_commande, statut_commande_value) VALUES ('.$identifiantCommande.', 0)');
+    $statutCommandeQuery = $bdd->connexion->query('INSERT INTO statut_commande (identifiant_commande, statut_commande_value, mode_statut_commande) VALUES ('.$identifiantCommande.', 0, '.$mode.')');
 }
 
 header('Location: ../../index.php');

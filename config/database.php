@@ -50,12 +50,34 @@ class DataBase{
                 $initQuery = $this->connexion->prepare('SELECT * FROM users WHERE mail_users = :mail');
                 $initQuery->bindParam(':mail', $mail, PDO::PARAM_STR);
                 $initQuery->execute();
+                //Vérification de l'existance d'un panier dans $cartExist
+
+                if(isset($_SESSION['user']) AND !empty($_SESSION['user']['identifiant_users']))
+                    {
+                        $cart = $this->getCart($_SESSION['user']);
+                        $cartExist = $cart === 'Votre panier est vide' ? false : true;
+                        $temporaryId = $_SESSION['user']['identifiant_users'];
+                    }
+
+                if(isset($_SESSION['user']['mode']) AND $_SESSION['user']['mode'] != null){
+                    $modeVar = $_SESSION['user']['mode'];   
+                }
 
                 if($initQuery != false){
                     $bddUserInfo = $initQuery->fetch();
                     if(password_verify($mdp, $bddUserInfo['mdp_users'])){
                         $_SESSION['user'] = $bddUserInfo;
+
+                        if(isset($modeVar)){
+                            $_SESSION['user']['mode'] = $modeVar;
+                        }
+
                         $return = '<span class="text-success text-center">Connexion reussie</span>';
+
+                        if($cartExist){
+                            $this->connexion->query('UPDATE cart SET id_users = '.$bddUserInfo['id_users'].' WHERE id_users = '.$temporaryId.'');
+                        }
+
                         return $return;
                     }
                     else{
@@ -147,7 +169,7 @@ class DataBase{
     }
 
     public function getCommande0() {
-        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande, statut_commande.mode_statut_commande
                                                 FROM statut_commande
                                                 WHERE statut_commande.statut_commande_value = 0 
                                                 ORDER BY identifiant_commande DESC');
@@ -161,6 +183,7 @@ class DataBase{
                 $userInfo = $this->getUserById($produitIds[0]['id_users']);
                 $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
                 $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                $respond[$idCommande['identifiant_commande']]['mode'] = $idCommande['mode_statut_commande'];
                 foreach($produitIds as $produitId){
                     if(isset($produitId['prix_commande'])){
                         $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
@@ -180,7 +203,7 @@ class DataBase{
     }
 
     public function getCommande1() {
-        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande, statut_commande.mode_statut_commande
                                                 FROM statut_commande
                                                 WHERE statut_commande.statut_commande_value = 1
                                                 ORDER BY identifiant_commande DESC');
@@ -194,6 +217,7 @@ class DataBase{
                 $userInfo = $this->getUserById($produitIds[0]['id_users']);
                 $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
                 $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                $respond[$idCommande['identifiant_commande']]['mode'] = $idCommande['mode_statut_commande'];
                 foreach($produitIds as $produitId){
                     if(isset($produitId['prix_commande'])){
                         $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];

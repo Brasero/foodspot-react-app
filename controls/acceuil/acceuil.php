@@ -28,7 +28,7 @@ if($starProductQuery->execute()){
     $starProduct = $starProductQuery->fetchAll();
 }
 else{
-    echo '<div class="text-danger">Impossible de se connecter, si le problème persiste contactez votre web Master</div>';
+    echo '<div class="text-danger">Impossible de se connecter, si le problème persiste contactez votre web-master</div>';
 }
 
 
@@ -201,11 +201,12 @@ $commandePriseEnCharge = $bdd->getCommande1();
                     <?php
                         foreach($commandeEnCour as $commandeNb => $value){
                             $commandeTime = strftime(' %A %d %b %Y à %H:%M', $commandeNb);
+                            $mode = $value['mode'] === '1' ? 'A emporter' : 'A livrer';
                             echo '
                                 <div class="accordion-item ms-1 col-12">
                                    <h2 class="accordion-header ms-2 p-1" id="b'.$commandeNb.'">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c'.$commandeNb.'" aria-expanded="true" aria-controls="c'.$commandeNb.'">
-                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong>
+                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong> <strong class="fw-bold ms-5 text-warning">'.$mode.'</strong>
                                         </button>
                                    </h2>
                                    <div id="c'.$commandeNb.'" class="accordion-collapse collapse" aria-labelledby="b'.$commandeNb.'">
@@ -257,7 +258,7 @@ $commandePriseEnCharge = $bdd->getCommande1();
                                                     </div>
                                                 ';
                                             }
-                                            elseif($itemKey != 'user' && $itemKey != 'prix_total'){
+                                            elseif($itemKey !== 'user' && $itemKey !== 'prix_total' && $itemKey !== 'mode'){
                                                 echo '
                                                 <div class="card mx-0 mb-2 bg-secondary text-white col-6 col-md-1">
                                                     <div class="card-body text-center py-5">
@@ -300,11 +301,12 @@ $commandePriseEnCharge = $bdd->getCommande1();
                     <?php
                         foreach($commandePriseEnCharge as $commandeNb => $value){
                             $commandeTime = strftime(' %A %d %b %Y à %H:%M', $commandeNb);
+                            $mode = $value['mode'] === '1' ? 'A emporter' : 'A livrer';
                             echo '
                                 <div class="accordion-item ms-1 col-12">
                                    <h2 class="accordion-header ms-2 p-1" id="b'.$commandeNb.'">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c'.$commandeNb.'" aria-expanded="true" aria-controls="c'.$commandeNb.'">
-                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong>
+                                            Commande N°'.$commandeNb.' <small class="text-muted ms-5">'.$commandeTime.'</small> <strong class="fw-bold ms-5" style="margin-left: auto;">'.number_format($value['prix_total'], 2, ',', '.').' €</strong> <strong class="fw-bold ms-5 text-warning">'.$mode.'</strong>
                                         </button>
                                    </h2>
                                    <div id="c'.$commandeNb.'" class="accordion-collapse collapse" aria-labelledby="b'.$commandeNb.'">
@@ -356,7 +358,7 @@ $commandePriseEnCharge = $bdd->getCommande1();
                                                     </div>
                                                 ';
                                             }
-                                            elseif($itemKey != 'user' && $itemKey != 'prix_total'){
+                                            elseif($itemKey !== 'user' && $itemKey !== 'prix_total' && $itemKey !== 'mode'){
                                                 echo '
                                                 <div class="card mx-0 mb-2 bg-secondary text-white col-6 col-md-1">
                                                     <div class="card-body text-center py-5">
