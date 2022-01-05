@@ -169,7 +169,7 @@ class DataBase{
     }
 
     public function getCommande0() {
-        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande, statut_commande.mode_statut_commande
                                                 FROM statut_commande
                                                 WHERE statut_commande.statut_commande_value = 0 
                                                 ORDER BY identifiant_commande DESC');
@@ -183,6 +183,7 @@ class DataBase{
                 $userInfo = $this->getUserById($produitIds[0]['id_users']);
                 $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
                 $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                $respond[$idCommande['identifiant_commande']]['mode'] = $idCommande['mode_statut_commande'];
                 foreach($produitIds as $produitId){
                     if(isset($produitId['prix_commande'])){
                         $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
@@ -202,7 +203,7 @@ class DataBase{
     }
 
     public function getCommande1() {
-        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande
+        $idCommandeQuery = $this->connexion->query('SELECT statut_commande.identifiant_commande, statut_commande.mode_statut_commande
                                                 FROM statut_commande
                                                 WHERE statut_commande.statut_commande_value = 1
                                                 ORDER BY identifiant_commande DESC');
@@ -216,6 +217,7 @@ class DataBase{
                 $userInfo = $this->getUserById($produitIds[0]['id_users']);
                 $respond[$idCommande['identifiant_commande']]['prix_total'] = 0;
                 $respond[$idCommande['identifiant_commande']]['user'] = $userInfo;
+                $respond[$idCommande['identifiant_commande']]['mode'] = $idCommande['mode_statut_commande'];
                 foreach($produitIds as $produitId){
                     if(isset($produitId['prix_commande'])){
                         $respond[$idCommande['identifiant_commande']]['prix_total'] += $produitId['prix_commande'];
