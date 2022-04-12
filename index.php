@@ -6,6 +6,8 @@ include_once('./config/database.php');
 
 $bdd = new DataBase;
 
+$modif = 'Ceci est une modif pour un test git';
+
 $bdd->getConnexion();
 
 if(isset($_POST['connect_email'], $_POST['connect_password'])){
